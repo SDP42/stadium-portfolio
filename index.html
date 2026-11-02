@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swayam Panchal · Data Science & AI</title>
+  <meta name="description" content="Swayam Panchal: data science, machine learning and generative AI. Walk into the stadium and meet the starting XI of projects." />
+  <meta name="theme-color" content="#05080d" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23d4ff3a'/><text x='32' y='42' font-size='28' font-family='Arial' font-weight='900' text-anchor='middle' fill='%2305080d'>SP</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="flash" aria-hidden="true"></div>
+
+  <!-- Cinematic letterbox during camera flights -->
+  <div class="letterbox" aria-hidden="true">
+    <div class="lb lb-top"><span class="mono" id="lbText">CAM 01</span><span class="mono lb-rec"><i></i> LIVE</span></div>
+    <div class="lb lb-bot"><span class="mono" id="lbSub"></span></div>
+  </div>
+  <!-- Broadcast stinger wipe between worlds -->
+  <div class="stinger" id="stinger" aria-hidden="true">
+    <i class="s1"></i><i class="s2"></i><i class="s3"></i>
+    <span class="st-crest">SP</span>
+  </div>
+
+  <!-- Loader: the floodlights warm up -->
+  <div id="loader" role="status" aria-live="polite">
+    <div class="loader-crest">SP</div>
+    <div class="loader-text">
+      <span class="mono">SDP42 FC · MATCHDAY</span>
+      <strong>Switching on the floodlights<span class="dots"></span></strong>
+    </div>
+    <div class="loader-count mono"><span id="loadPct">00</span>%</div>
+    <div class="loader-bar"><i id="loadBar"></i></div>
+  </div>
+
+  <!-- Header -->
+  <header class="topbar">
+    <a href="#/" class="brand" data-link>
+      <span class="crest">SP</span>
+      <span class="brand-text"><b>Swayam Panchal</b><small>SDP42 FC</small></span>
+    </a>
+    <nav class="nav" aria-label="Stadium zones">
+      <a href="#/stadium" data-link data-view="stadium">Stadium</a>
+      <a href="#/squad" data-link data-view="squad">Projects</a>
+      <a href="#/about" data-link data-view="about">About</a>
+      <a href="#/honours" data-link data-view="honours">Honours</a>
+      <a href="#/skills" data-link data-view="skills">Skills</a>
+      <a href="#/bench" data-link data-view="bench">Bench</a>
+      <a href="#/penalty" data-link data-view="penalty" class="nav-play">Play ⚽</a>
+      <a href="#/contact" data-link data-view="contact" class="nav-cta">Contact</a>
+    </nav>
+    <button class="daynight" id="dayBtn" aria-pressed="false" aria-label="Switch between day and night"><span class="dn-track"><i class="dn-knob"></i></span><span class="mono" id="dayLabel">NIGHT</span></button>
+    <button class="sound" id="soundBtn" aria-pressed="false" aria-label="Toggle stadium sound"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="mono" id="soundLabel">SOUND OFF</span></button>
+    <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
+  </header>
+
+  <!-- Breadcrumb / back -->
+  <div class="crumbs" id="crumbs">
+    <button class="back" id="backBtn" aria-label="Zoom out"><span>←</span> Zoom out</button>
+    <span class="trail mono" id="trail"></span>
+  </div>
+
+  <!-- Broadcast scene card: names and explains each scene as the camera flies -->
+  <div class="scene-card" id="sceneCard" aria-live="polite">
+    <span class="sc-no mono" id="scNo">01</span>
+    <div><b id="scTitle"></b><small id="scText"></small></div>
+  </div>
+
+  <!-- Scout HUD: level, XP, scouting progress, badge cabinet -->
+  <button class="hud" id="hud" aria-label="Open your scouting badges">
+    <span class="hud-lvl mono" id="hudLevel">ACADEMY</span>
+    <span class="hud-bar"><i id="hudBar"></i></span>
+    <span class="hud-meta mono"><b id="hudXp">0</b> XP · <b id="hudScout">0</b>/11 scouted · <b id="hudBadges">0</b> 🏅</span>
+  </button>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div class="cabinet" id="cabinet" role="dialog" aria-label="Badge cabinet" aria-hidden="true">
+    <div class="cab-inner">
+      <div class="cab-head">
+        <div><p class="eyebrow mono">SCOUT MODE</p><h2 class="h3">Badge cabinet</h2></div>
+        <button class="cab-close" id="cabClose" aria-label="Close">×</button>
+      </div>
+      <p class="cab-level mono" id="cabLevel"></p>
+      <div class="cab-grid" id="cabGrid"></div>
+      <button class="btn btn-ghost cab-reset" id="cabReset">Reset progress</button>
+    </div>
+  </div>
+
+  <!-- 3D hotspot labels get injected here -->
+  <div id="hotspots" aria-label="Stadium zones"></div>
+
+  <!-- HOME -->
+  <section class="view view-home" data-view="home" aria-label="Home">
+    <div class="hero">
+      <p class="eyebrow mono"><span class="live-dot"></span> LIVE FROM MUMBAI</p>
+      <h1 class="hero-title">
+        <span class="line"><span data-scramble>SWAYAM</span></span>
+        <span class="line outline"><span data-scramble>PANCHAL</span></span>
+      </h1>
+      <p class="hero-sub">AI &amp; Data Science undergrad (CGPA 9.70) and 5× hackathon winner. I build ML and GenAI systems that turn raw data into decisions. This is my stadium. Eleven projects are on the pitch.</p>
+      <div class="hero-cta">
+        <a href="#/stadium" data-link class="btn btn-primary">Enter the stadium <span>→</span></a>
+        <a href="#/squad/1" data-link class="btn btn-ghost">Skip to kick-off</a>
+      </div>
+      <a href="#/squad/9" data-link class="captain-chip"><span class="mono">★ CAPTAIN</span><b>MIRAGE</b><small>deepfake social-engineering defence · 201 commits</small><i>→</i></a>
+    </div>
+    <div class="scroll-cue mono" aria-hidden="true"><i></i>Scroll to enter</div>
+  </section>
+
+  <!-- STADIUM overview: hotspots do the talking -->
+  <section class="view view-stadium" data-view="stadium" aria-label="Stadium overview">
+    <div class="stadium-caption">
+      <p class="eyebrow mono"><span class="live-dot"></span> INSIDE THE ARENA</p>
+      <h2 class="h3">Pick a zone. The camera takes you there.</h2>
+      <p class="mono small">Drag to look around · scroll to kick off · Esc to zoom out</p>
+      <div class="caption-cta">
+        <button class="btn btn-ghost" id="waveBtn">Start a Mexican wave 🌊</button>
+        <a href="#/penalty" data-link class="btn btn-primary">Take penalties ⚽</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SQUAD (tactical board) -->
+  <section class="view panel panel-right" data-view="squad" aria-label="Projects">
+    <div class="panel-inner">
+      <p class="eyebrow mono">THE PITCH · 4-3-3</p>
+      <h2 class="h2">Starting <em>XI</em></h2>
+      <p class="lede">Eleven projects, each picked for real commit history or real size. Click a player on the pitch, or pick one below.</p>
+      <ol class="lineup" id="lineup"></ol>
+    </div>
+  </section>
+
+  <!-- PLAYER (one project) -->
+  <section class="view player" data-view="player" aria-label="Project detail">
+    <article class="card" id="playerCard"></article>
+    <div class="formation" id="formationDots" aria-label="Jump to player"></div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="view panel panel-left" data-view="skills" aria-label="Skills">
+    <div class="panel-inner">
+      <p class="eyebrow mono">THE BIG SCREEN · MATCH STATS</p>
+      <h2 class="h2">The <em>toolkit</em></h2>
+      <div class="stats" id="stats"></div>
+      <div class="skills" id="skills"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="view panel panel-right" data-view="about" aria-label="About">
+    <div class="panel-inner">
+      <p class="eyebrow mono">PLAYERS' TUNNEL · PROFILE</p>
+      <h2 class="h2">From raw data <em>to decisions</em></h2>
+      <div class="about-grid">
+        <div class="kit">
+          <div class="kit-shirt"><span class="kit-name">PANCHAL</span><span class="kit-no">17</span></div>
+        </div>
+        <dl class="bio mono">
+          <div><dt>Name</dt><dd>Swayam Devendra Panchal</dd></div>
+          <div><dt>Position</dt><dd>Data science · ML · GenAI</dd></div>
+          <div><dt>Academy</dt><dd>DJ Sanghvi College of Engineering</dd></div>
+          <div><dt>Course</dt><dd>B.Tech, AI &amp; Data Science</dd></div>
+          <div><dt>Form</dt><dd>CGPA 9.70 / 10</dd></div>
+          <div><dt>Home ground</dt><dd>Mumbai, India</dd></div>
+        </dl>
+      </div>
+      <div class="prose">
+        <p>I work across the whole path from raw data to a decision: SQL and databases, exploratory analysis and statistics, machine and deep learning models that hold up out of sample, and generative-AI systems that put those models in front of people.</p>
+        <p>Most of my projects start at a hackathon (Smart India Hackathon, D3COY, CASCADE) and keep going long after it: tested, documented, and honest about what they don't know.</p>
+        <p>Off the keyboard, it's football: tactics, data and the odd late-night match. That's why you're standing in a stadium.</p>
+      </div>
+      <h3 class="h4">Academy <span class="mono small">education</span></h3>
+      <ol class="edu" id="eduList"></ol>
+      <div class="row-cta">
+        <a href="#/honours" data-link class="btn btn-primary">Trophy cabinet <span>→</span></a>
+        <a href="#/contact" data-link class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONOURS -->
+  <section class="view panel panel-right" data-view="honours" aria-label="Honours and roles">
+    <div class="panel-inner">
+      <p class="eyebrow mono">CENTRE SPOT · TROPHY CABINET</p>
+      <h2 class="h2">Honours <em>&amp; roles</em></h2>
+      <div class="honours" id="honoursList"></div>
+      <h3 class="h4">Captain's armband <span class="mono small">committees · work · mentoring</span></h3>
+      <ol class="roles" id="rolesList"></ol>
+      <h3 class="h4">Interests</h3>
+      <div class="chips" id="interestList"></div>
+    </div>
+  </section>
+
+  <!-- BENCH -->
+  <section class="view panel panel-right" data-view="bench" aria-label="More projects">
+    <div class="panel-inner">
+      <p class="eyebrow mono">THE DUGOUT · SUBSTITUTES</p>
+      <h2 class="h2">On the <em>bench</em></h2>
+      <p class="lede">Projects warming up: earlier-stage, but real code with a real idea behind it.</p>
+      <div class="bench" id="benchList"></div>
+      <a class="btn btn-ghost wide" href="https://github.com/SDP42?tab=repositories" target="_blank" rel="noopener">All 53 repositories on GitHub <span>↗</span></a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view panel panel-left" data-view="contact" aria-label="Contact">
+    <div class="panel-inner">
+      <p class="eyebrow mono">PRESS BOX · TRANSFER WINDOW OPEN</p>
+      <h2 class="h2">Let's <em>talk</em></h2>
+      <p class="lede">Internships, research collaborations, hackathon teams or a good football argument. My inbox is open.</p>
+      <div class="contact-links">
+        <a class="clink" id="mailLink" href="#"><span class="mono">EMAIL</span><b id="mailText"></b><i>↗</i></a>
+        <a class="clink" id="liLink" target="_blank" rel="noopener" href="#"><span class="mono">LINKEDIN</span><b>swayam-panchal</b><i>↗</i></a>
+        <a class="clink" id="ghLink" target="_blank" rel="noopener" href="#"><span class="mono">GITHUB</span><b>@SDP42</b><i>↗</i></a>
+      </div>
+      <form class="form" id="contactForm">
+        <label><span class="mono">Your name</span><input name="name" required autocomplete="name" /></label>
+        <label><span class="mono">Your email</span><input name="email" type="email" required autocomplete="email" /></label>
+        <label><span class="mono">Message</span><textarea name="msg" rows="4" required></textarea></label>
+        <button class="btn btn-primary" type="submit">Send the offer <span>→</span></button>
+        <p class="form-note mono">Opens your email app with the message ready to send.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- PENALTY SHOOTOUT -->
+  <section class="view view-penalty" data-view="penalty" aria-label="Penalty shootout">
+    <div class="pen-hud">
+      <p class="eyebrow mono">PENALTY SHOOTOUT · SDP42 vs BUGS FC</p>
+      <div class="pen-score"><span class="mono">KICK <b id="penKick">1</b>/5</span><span class="pen-dots" id="penDots"></span><span class="mono">BEST <b id="penBest">0</b></span></div>
+      <p class="mono small" id="penHelp">Move to aim inside the goal · click to shoot · the keeper guesses</p>
+    </div>
+    <div class="reticle" id="reticle" aria-hidden="true"><i></i></div>
+    <div class="pen-flash" id="penFlash" aria-live="assertive"></div>
+    <div class="pen-end" id="penEnd">
+      <p class="eyebrow mono">FULL TIME</p>
+      <h2 class="h2" id="penResult"></h2>
+      <div class="row-cta"><button class="btn btn-primary" id="penAgain">Go again ⚽</button><a href="#/stadium" data-link class="btn btn-ghost">Back to the stadium</a></div>
+    </div>
+  </section>
+
+  <!-- GOAL -->
+  <div class="goal" id="goal" aria-hidden="true">
+    <div class="goal-word"><span>G</span><span>O</span><span>A</span><span>A</span><span>A</span><span>L</span><span>!</span></div>
+    <p class="mono goal-sub">90+3' · MIRAGE · ASSIST: THE OTHER TEN</p>
+    <div class="goal-cta">
+      <a href="#/contact" data-link class="btn btn-primary">Sign me · get in touch <span>→</span></a>
+      <a href="#/honours" data-link class="btn btn-ghost">Trophy cabinet</a>
+      <a href="#/penalty" data-link class="btn btn-ghost">Penalty shootout</a>
+      <a href="#/squad/1" data-link class="btn btn-ghost">Replay</a>
+    </div>
+  </div>
+
+  <!-- Broadcast bar -->
+  <footer class="broadcast">
+    <div class="score mono">
+      <span class="tag">LIVE</span>
+      <span class="team">SDP42</span><b id="scoreHome">0</b><span class="sep">–</span><b>0</b><span class="team">BUGS</span>
+      <span class="clock" id="clock">00:00</span>
+    </div>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+  </footer>
+
+  <div class="cursor" aria-hidden="true"><i></i></div>
+  <noscript><p style="padding:2rem;color:#fff">This portfolio needs JavaScript. Projects: https://github.com/SDP42</p></noscript>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
