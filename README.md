@@ -26,7 +26,8 @@ npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 | `#/honours` | Centre spot, trophy rises | 5× hackathon, 2× ideathon, JPMC Code for Good, Secretary of DJS NSDC × Infomatrix, roles |
 | `#/skills` | West big screen | Toolkit as match stats |
 | `#/bench` | The dugout | Substitutes: earlier-stage projects |
-| `#/contact` | Press box | Email, LinkedIn, GitHub, contact form |
+| `#/resume` | West big screen | **Résumé**: the screen shows the CV, with an in-page PDF preview, Download and Open in new tab |
+| `#/contact` | Press box | Email, LinkedIn, GitHub, résumé download, contact form |
 
 Scroll, swipe or use the arrow keys to walk the story (outside → inside → players 1 to 11 → goal). Esc zooms out. Every route is a shareable URL.
 
@@ -35,15 +36,16 @@ Scroll, swipe or use the arrow keys to walk the story (outside → inside → pl
 - **Full house:** around 44,000 instanced fans, one per seat, with an "SDP42" tifo mosaic, arms up in the Mexican wave, camera flashes and waving flags.
 - **Live match:** both XIs and a referee with articulated running animation. Players jog, press, face the ball, sprint onto passes and kick. The ball rolls with real spin, or lofts and bounces; the selected player does keepy-uppies.
 - **Outside:** esplanade paving, a winding approach path, trees, street lamps, fans walking in, ring-road traffic and a city skyline with lit windows.
-- **Day / night:** one switch crossfades sky, sun, clouds, fog, exposure, bloom, floodlights, lamps, windows and the facade.
+- **Time of day and weather:** Day, Golden hour and Night crossfade sky, sun, clouds, fog, exposure, bloom, floodlights, lamps, windows and the facade. **Rain** adds falling streaks, an overcast sky, a wet glossy pitch and rain sound.
+- **Clarity:** multisampled HDR rendering keeps edges anti-aliased through bloom; up to 2× resolution on desktop.
 - **Cinematic camera:** long, damped swooping flights, adaptive quality that keeps motion smooth on slower machines, a speed-based chromatic blur, letterbox bars with a broadcast caption, a stinger wipe between outside and inside, and panels that reveal with a mask wipe.
 - **Sound** (opt-in): crowd ambience, whooshes, the referee's whistle, a goal roar and fireworks. All synthesised with Web Audio, so there are no audio files.
 
 ## Scout mode (gamification)
-XP and levels (Academy → Reserves → First team → Captain → Club legend), 16 badges with toasts and a badge cabinet, progress for scouting all 11 projects, and the penalty shootout with your best score. Progress is stored in the visitor's browser.
+XP and levels (Academy → Reserves → First team → Captain → Club legend), 17 badges with toasts and a badge cabinet, progress for scouting all 11 projects, and the penalty shootout with your best score. Progress is stored in the visitor's browser.
 
 ## Editing content
-Everything lives in [`src/data.js`](src/data.js): `profile`, the starting XI (`squad`, with `captain: true` on the featured project), `bench`, `education`, `honours`, `roles`, `interests` and `skills`. Add a phone number and set `showPhone: true` to list it on the contact page.
+The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Swayam_Panchal_Resume.pdf); replace that file to update it. Everything else lives in [`src/data.js`](src/data.js): `profile`, the starting XI (`squad`, with `captain: true` on the featured project), `bench`, `education`, `honours`, `roles`, `interests` and `skills`. Add a phone number and set `showPhone: true` to list it on the contact page.
 
 ## Code map
 | File | Role |

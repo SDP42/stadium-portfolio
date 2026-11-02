@@ -39,6 +39,7 @@ export class StadiumAudio {
   toggle() {
     this.init();
     this.on = !this.on;
+    if (this._rainWanted !== undefined) { this.rain(this._rainWanted); this._rainWanted = undefined; }
     if (this.ctx.state === 'suspended') this.ctx.resume();
     this.master.gain.cancelScheduledValues(this.ctx.currentTime);
     this.master.gain.linearRampToValueAtTime(this.on ? 0.9 : 0, this.ctx.currentTime + 0.6);
@@ -87,6 +88,21 @@ export class StadiumAudio {
     this.crowd.gain.linearRampToValueAtTime(1.6, t + 0.25);
     this.crowd.gain.linearRampToValueAtTime(0.32, t + 7);
     this._noise(4.5, { type: 'lowpass', from: 900, to: 3800, q: 0.4, gain: 0.9, attack: 0.15 });
+  }
+
+  // steady rain hiss, faded in and out
+  rain(on) {
+    if (!this.ctx) { this._rainWanted = on; return; }
+    if (!this.rainGain) {
+      const src = this.ctx.createBufferSource(); src.buffer = this.noise; src.loop = true;
+      const hp = this.ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 900;
+      const lp = this.ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 7000;
+      this.rainGain = this.ctx.createGain(); this.rainGain.gain.value = 0;
+      src.connect(hp).connect(lp).connect(this.rainGain).connect(this.master); src.start();
+    }
+    const t = this.ctx.currentTime;
+    this.rainGain.gain.cancelScheduledValues(t);
+    this.rainGain.gain.linearRampToValueAtTime(on ? 0.5 : 0, t + 1.5);
   }
 
   boom() { this._noise(1.4, { type: 'lowpass', from: 500, to: 60, q: 0.8, gain: 0.7, attack: 0.01 }); }

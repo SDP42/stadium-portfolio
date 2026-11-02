@@ -51,10 +51,17 @@
       <a href="#/honours" data-link data-view="honours">Honours</a>
       <a href="#/skills" data-link data-view="skills">Skills</a>
       <a href="#/bench" data-link data-view="bench">Bench</a>
+      <a href="#/resume" data-link data-view="resume">Résumé</a>
       <a href="#/penalty" data-link data-view="penalty" class="nav-play">Play ⚽</a>
       <a href="#/contact" data-link data-view="contact" class="nav-cta">Contact</a>
     </nav>
-    <button class="daynight" id="dayBtn" aria-pressed="false" aria-label="Switch between day and night"><span class="dn-track"><i class="dn-knob"></i></span><span class="mono" id="dayLabel">NIGHT</span></button>
+    <div class="timectl" role="group" aria-label="Time of day and weather">
+      <button data-time="day" aria-pressed="false" aria-label="Day" title="Day">☀︎<span class="mono">DAY</span></button>
+      <button data-time="dusk" aria-pressed="false" aria-label="Golden hour" title="Golden hour">◐<span class="mono">DUSK</span></button>
+      <button data-time="night" aria-pressed="true" aria-label="Night" title="Night">☾<span class="mono">NIGHT</span></button>
+      <i class="tc-sep"></i>
+      <button id="rainBtn" aria-pressed="false" aria-label="Rain" title="Rain">☂︎<span class="mono">RAIN</span></button>
+    </div>
     <button class="sound" id="soundBtn" aria-pressed="false" aria-label="Toggle stadium sound"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="mono" id="soundLabel">SOUND OFF</span></button>
     <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><i></i><i></i></button>
   </header>
@@ -105,6 +112,7 @@
       <div class="hero-cta">
         <a href="#/stadium" data-link class="btn btn-primary">Enter the stadium <span>→</span></a>
         <a href="#/squad/1" data-link class="btn btn-ghost">Skip to kick-off</a>
+        <a href="#/resume" data-link class="btn btn-ghost">Résumé <span>↓</span></a>
       </div>
       <a href="#/squad/9" data-link class="captain-chip"><span class="mono">★ CAPTAIN</span><b>MIRAGE</b><small>deepfake social-engineering defence · 201 commits</small><i>→</i></a>
     </div>
@@ -177,6 +185,7 @@
       <ol class="edu" id="eduList"></ol>
       <div class="row-cta">
         <a href="#/honours" data-link class="btn btn-primary">Trophy cabinet <span>→</span></a>
+        <a href="#/resume" data-link class="btn btn-ghost">View résumé</a>
         <a href="#/contact" data-link class="btn btn-ghost">Get in touch</a>
       </div>
     </div>
@@ -192,6 +201,23 @@
       <ol class="roles" id="rolesList"></ol>
       <h3 class="h4">Interests</h3>
       <div class="chips" id="interestList"></div>
+    </div>
+  </section>
+
+  <!-- RESUME -->
+  <section class="view panel panel-left panel-wide" data-view="resume" aria-label="Résumé">
+    <div class="panel-inner">
+      <p class="eyebrow mono">BIG SCREEN · THE CONTRACT</p>
+      <h2 class="h2">The <em>résumé</em></h2>
+      <p class="lede">One page: education, experience, projects, achievements and skills.</p>
+      <div class="cv-actions">
+        <a class="btn btn-primary" href="/resume/Swayam_Panchal_Resume.pdf" download="Swayam_Panchal_Resume.pdf">Download PDF <span>↓</span></a>
+        <a class="btn btn-ghost" href="/resume/Swayam_Panchal_Resume.pdf" target="_blank" rel="noopener">Open in new tab <span>↗</span></a>
+      </div>
+      <div class="cv-frame">
+        <iframe src="/resume/Swayam_Panchal_Resume.pdf#view=FitH&amp;toolbar=0&amp;navpanes=0" title="Swayam Panchal résumé (PDF)" loading="lazy"></iframe>
+      </div>
+      <p class="mono small cv-note">Can't see the preview? Use Download or Open in new tab.</p>
     </div>
   </section>
 
@@ -216,6 +242,7 @@
         <a class="clink" id="mailLink" href="#"><span class="mono">EMAIL</span><b id="mailText"></b><i>↗</i></a>
         <a class="clink" id="liLink" target="_blank" rel="noopener" href="#"><span class="mono">LINKEDIN</span><b>swayam-panchal</b><i>↗</i></a>
         <a class="clink" id="ghLink" target="_blank" rel="noopener" href="#"><span class="mono">GITHUB</span><b>@SDP42</b><i>↗</i></a>
+        <a class="clink" href="/resume/Swayam_Panchal_Resume.pdf" download><span class="mono">RÉSUMÉ</span><b>Download PDF</b><i>↓</i></a>
       </div>
       <form class="form" id="contactForm">
         <label><span class="mono">Your name</span><input name="name" required autocomplete="name" /></label>

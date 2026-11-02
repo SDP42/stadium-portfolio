@@ -70,7 +70,7 @@ export class Stadium {
     this.clock = new THREE.Clock();
     this.time = 0;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.25 : 1.75));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.5 : 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.05;
     this.renderer.shadowMap.enabled = !mobile;
@@ -90,6 +90,8 @@ export class Stadium {
       uWave: { value: 0 },     // Mexican wave head (0..1 around the bowl)
       uHype: { value: 0 },     // crowd excitement
       uDay: { value: 0 },      // 0 night → 1 day
+      uDusk: { value: 0 },     // golden-hour tint
+      uRain: { value: 0 },     // weather
       uCam: { value: new THREE.Vector3() },
     };
     this.shellColor = { a: new THREE.Color('#62c8ff'), b: new THREE.Color('#62c8ff'), chase: 0, power: 0 };
@@ -110,6 +112,7 @@ export class Stadium {
     this.buildScreen();
     this.buildConfetti();
     this.buildFireworks();
+    this.buildRain();
     this.buildPost();
 
     // Camera rig state: base pose + transient effects
@@ -141,7 +144,7 @@ export class Stadium {
         side: THREE.BackSide, depthWrite: false, fog: false,
         uniforms: { ...this.uniforms, uSun: { value: this.sunDir } },
         vertexShader: `varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.); }`,
-        fragmentShader: `varying vec3 vP; uniform float uLights, uDay, uTime; uniform vec3 uSun;
+        fragmentShader: `varying vec3 vP; uniform float uLights, uDay, uTime, uDusk, uRain; uniform vec3 uSun;
           float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
           float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
             return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
@@ -159,6 +162,14 @@ export class Stadium {
             float cl = smoothstep(.55, .85, noise(cp) * .65 + noise(cp * 2.3) * .35) * smoothstep(.02, .25, h);
             day = mix(day, vec3(1.), cl * .75);
             vec3 c = mix(night, day, uDay);
+            // golden hour: purple zenith, burning horizon, low sun
+            vec3 duskC = mix(vec3(1., .52, .26), vec3(.16, .14, .34), pow(smoothstep(-0.04, 0.55, h), .6));
+            duskC += vec3(1., .6, .3) * (pow(sd, 400.) * 5. + pow(sd, 6.) * .45);
+            duskC = mix(duskC, vec3(1., .7, .55), cl * .45);
+            c = mix(c, duskC, uDusk);
+            // rain: low grey overcast
+            vec3 overcast = mix(vec3(.05,.055,.065), vec3(.42,.45,.5), max(uDay, uDusk * .6)) * (.8 + .2 * smoothstep(-.1, .5, h));
+            c = mix(c, overcast, uRain * .85);
             gl_FragColor = vec4(c,1.); }`,
       })
     );
@@ -185,7 +196,7 @@ export class Stadium {
       new THREE.ShaderMaterial({
         uniforms: this.uniforms, fog: false,
         vertexShader: `varying vec3 vW; void main(){ vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`,
-        fragmentShader: `varying vec3 vW; uniform float uLights, uDay;
+        fragmentShader: `varying vec3 vW; uniform float uLights, uDay, uRain;
           float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
           void main(){
             vec2 p = vW.xz; float d = length(p / vec2(1.12, 1.));
@@ -212,7 +223,9 @@ export class Stadium {
             nightC += vec3(1., .78, .45) * exp(-dot(lp, lp) * 40.) * .12 * paved;
             nightC += vec3(.12,.38,.6) * exp(-max(d-120.,0.)/40.) * .35 * uLights;
             nightC *= 1. - smoothstep(600., 1700., d);
-            gl_FragColor = vec4(mix(nightC, dayC, uDay), 1.);
+            vec3 gc = mix(nightC, dayC, uDay);
+            gc *= 1. - uRain * .35;
+            gl_FragColor = vec4(gc, 1.);
           }`,
       })
     );
@@ -1086,7 +1099,19 @@ export class Stadium {
     for (let i = 0; i < w; i += 6) x.fillRect(i, 0, 1, h);
     for (let j = 0; j < h; j += 6) x.fillRect(0, j, w, 1);
     x.textAlign = 'center'; x.textBaseline = 'middle';
-    if (mode === 'goal') {
+    if (mode === 'resume') {
+      x.fillStyle = '#1e78c8'; x.fillRect(0, 0, w, 90);
+      x.fillStyle = '#fff'; x.font = '800 52px Archivo, Arial, sans-serif';
+      x.fillText('THE CONTRACT · RÉSUMÉ', w / 2, 47);
+      x.textAlign = 'left';
+      x.fillStyle = '#ffffff'; x.font = '900 96px Archivo, Arial, sans-serif'; x.fillText('SWAYAM PANCHAL', 70, 190);
+      x.fillStyle = '#62c8ff'; x.font = '600 34px "JetBrains Mono", monospace'; x.fillText('AI & DATA SCIENCE · DJSCE · CGPA 9.70', 74, 262);
+      const lines = ['Hackathon & ideathon winner', 'AI Data Analyst · InAmigos Foundation', 'Secretary · DJS NSDC × Infomatrix', 'Python · ML · DL · NLP · SQL · React'];
+      x.font = '500 34px Inter, Arial, sans-serif';
+      lines.forEach((l, i) => { x.fillStyle = '#d4ff3a'; x.fillRect(74, 324 + i * 58, 14, 14); x.fillStyle = '#dfe6ef'; x.fillText(l, 108, 332 + i * 58); });
+      x.textAlign = 'center';
+      x.fillStyle = '#d4ff3a'; x.fillRect(0, h - 16, w, 16);
+    } else if (mode === 'goal') {
       x.fillStyle = '#d4ff3a';
       x.font = '900 320px Archivo, Arial, sans-serif';
       x.fillText('GOAL!', w / 2, h / 2 - 20);
@@ -1240,9 +1265,11 @@ export class Stadium {
   // ---------------------------------------------------------------- post
   buildPost() {
     const r = this.renderer;
-    this.composer = new EffectComposer(r);
+    // multisampled HDR target so edges stay anti-aliased through bloom/post
+    const rt = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, { type: THREE.HalfFloatType, samples: this.mobile ? 0 : 4 });
+    this.composer = new EffectComposer(r, rt);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.62, 0.5, 0.78);
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(512, 512), 0.5, 0.42, 0.84);
     this.composer.addPass(this.bloom);
     this.fx = new ShaderPass({
       uniforms: { tDiffuse: { value: null }, uAmt: { value: 0 }, uVig: { value: 1 }, uFlash: { value: 0 } },
@@ -1261,7 +1288,7 @@ export class Stadium {
             col.b += texture2D(tDiffuse, vUv + o - dir).b;
           }
           col /= 6.;
-          col *= 1. - smoothstep(.45, 1.05, d) * .75 * uVig;
+          col *= 1. - smoothstep(.55, 1.1, d) * .55 * uVig;
           col += uFlash;
           gl_FragColor = vec4(col, 1.);
         }`,
@@ -1331,29 +1358,93 @@ export class Stadium {
     gsap.to(this.roofMat.uniforms.uPower, { value: power, duration: 1.2 });
   }
 
-  keyLevel() { return this.isDay ? 2.6 : 1.8; }
+  keyLevel() { return (this._key || 1.8) * (this.raining ? 0.55 : 1); }
 
   // Day ↔ night: sky, sun, fog, exposure, bloom, stars and every light crossfade.
-  setDay(on, duration = 2.4) {
-    this.isDay = on;
+  setDay(on, duration = 2.4) { this.setTime(on ? 'day' : 'night', duration); }
+
+  // Day / golden hour / night: sky, sun, fog, exposure, bloom, stars and lights crossfade.
+  setTime(mode, duration = 2.4) {
+    const P = {
+      day:   { day: 1,    dusk: 0, sun: '#fff1dc', key: 2.6, pos: this.sunDir.clone().multiplyScalar(150), fill: 0.9, hemi: 0.6, tower: '#c4c8cd', fog: '#bcd6ec', dens: 0.00055, exp: 0.82, bloom: 0.18, stars: 0, env: 0.55 },
+      dusk:  { day: 0.55, dusk: 1, sun: '#ffb27a', key: 2.1, pos: new THREE.Vector3(150, 26, 70), fill: 0.7, hemi: 0.5, tower: '#a8968c', fog: '#7a5a66', dens: 0.0008, exp: 0.95, bloom: 0.4, stars: 0.25, env: 0.45 },
+      night: { day: 0,    dusk: 0, sun: '#f3f6ff', key: 1.8, pos: new THREE.Vector3(30, 120, 40), fill: 1.1, hemi: 0.7, tower: '#7d848d', fog: '#05080d', dens: 0.0011, exp: 1.05, bloom: 0.5, stars: 0.85, env: 0.35 },
+    }[mode];
+    this.timeMode = mode;
+    this.isDay = mode !== 'night';
+    this._key = P.key;
     const U = this.uniforms;
-    gsap.to(U.uDay, { value: on ? 1 : 0, duration, ease: 'power2.inOut' });
-    if (U.uLights.value > 0.5) gsap.to(this.sun, { intensity: this.keyLevel(), duration });
-    const sunCol = new THREE.Color(on ? '#fff1dc' : '#f3f6ff');
-    gsap.to(this.sun.color, { r: sunCol.r, g: sunCol.g, b: sunCol.b, duration });
-    const sp = on ? this.sunDir.clone().multiplyScalar(150) : new THREE.Vector3(30, 120, 40);
-    gsap.to(this.sun.position, { x: sp.x, y: sp.y, z: sp.z, duration });
-    gsap.to(this.fill, { intensity: on ? 0.9 : 1.1, duration });
-    gsap.to(this.pitchLights, { intensity: on ? 0.6 : 0.7, duration });
-    const tc = new THREE.Color(on ? '#c4c8cd' : '#7d848d');
+    gsap.to(U.uDay, { value: P.day, duration, ease: 'power2.inOut' });
+    gsap.to(U.uDusk, { value: P.dusk, duration, ease: 'power2.inOut' });
+    if (U.uLights.value > 0.5) gsap.to(this.sun, { intensity: P.key * (1 - U.uRain.value * 0.45), duration });
+    const sc = new THREE.Color(P.sun);
+    gsap.to(this.sun.color, { r: sc.r, g: sc.g, b: sc.b, duration });
+    gsap.to(this.sun.position, { x: P.pos.x, y: P.pos.y, z: P.pos.z, duration });
+    const sd = mode === 'dusk' ? P.pos.clone().normalize() : new THREE.Vector3(0.55, 0.62, 0.35).normalize();
+    gsap.to(this.sunDir, { x: sd.x, y: sd.y, z: sd.z, duration });
+    gsap.to(this.fill, { intensity: P.fill, duration });
+    gsap.to(this.pitchLights, { intensity: P.hemi, duration });
+    const tc = new THREE.Color(P.tower);
     gsap.to(this.towerMat.color, { r: tc.r, g: tc.g, b: tc.b, duration });
-    const fogCol = new THREE.Color(on ? '#bcd6ec' : '#05080d');
-    gsap.to(this.scene.fog.color, { r: fogCol.r, g: fogCol.g, b: fogCol.b, duration });
-    gsap.to(this.scene.fog, { density: on ? 0.00055 : 0.0011, duration });
-    gsap.to(this.renderer, { toneMappingExposure: on ? 0.82 : 1.05, duration });
-    gsap.to(this.bloom, { strength: on ? 0.2 : 0.62, duration });
-    gsap.to(this.stars.material, { opacity: on ? 0 : 0.85, duration });
-    gsap.to(this.scene, { environmentIntensity: on ? 0.55 : 0.35, duration });
+    this._fog = new THREE.Color(P.fog); this._dens = P.dens;
+    this.applyFog(duration);
+    gsap.to(this.renderer, { toneMappingExposure: P.exp, duration });
+    gsap.to(this.bloom, { strength: P.bloom, duration });
+    gsap.to(this.stars.material, { opacity: P.stars * (1 - U.uRain.value), duration });
+    gsap.to(this.scene, { environmentIntensity: P.env, duration });
+  }
+
+  applyFog(duration) {
+    const r = this.uniforms.uRain.value > 0.5 || this.raining;
+    const c = (this._fog || new THREE.Color('#05080d')).clone().lerp(new THREE.Color(this.isDay ? '#9aa3ad' : '#0b0e14'), r ? 0.6 : 0);
+    gsap.to(this.scene.fog.color, { r: c.r, g: c.g, b: c.b, duration });
+    gsap.to(this.scene.fog, { density: (this._dens || 0.0011) * (r ? 2.4 : 1), duration });
+  }
+
+  // Rain: falling streaks around the camera, overcast sky, wet glossy pitch.
+  setRain(on, duration = 2) {
+    this.raining = on;
+    this.rain.visible = true;
+    gsap.to(this.uniforms.uRain, { value: on ? 1 : 0, duration, onComplete: () => { if (!on) this.rain.visible = false; } });
+    gsap.to(this.pitchMat, { roughness: on ? 0.32 : 0.85, duration });
+    gsap.to(this.stars.material, { opacity: on || this.isDay ? 0 : 0.85, duration });
+    if (this.uniforms.uLights.value > 0.5) gsap.to(this.sun, { intensity: (this._key || 1.8) * (on ? 0.55 : 1), duration });
+    this.applyFog(duration);
+  }
+
+  buildRain() {
+    const N = this.mobile ? 3000 : 9000;
+    const seed = new Float32Array(N * 2 * 3), end = new Float32Array(N * 2);
+    for (let i = 0; i < N; i++) {
+      const sx = Math.random(), sy = Math.random(), sz = Math.random();
+      seed.set([sx, sy, sz, sx, sy, sz], i * 6);
+      end.set([0, 1], i * 2);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(N * 6), 3));
+    g.setAttribute('seed', new THREE.BufferAttribute(seed, 3));
+    g.setAttribute('endp', new THREE.BufferAttribute(end, 1));
+    this.rain = new THREE.LineSegments(g, new THREE.ShaderMaterial({
+      uniforms: this.uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: `attribute vec3 seed; attribute float endp; uniform vec3 uCam; uniform float uTime, uRain, uDay, uLights; varying float vA;
+        void main(){
+          float B = 110.;
+          vec3 p;
+          p.xz = uCam.xz + mod(seed.xz * B - uCam.xz, B) - B * .5;
+          float fall = 34. + seed.x * 10.;
+          p.y = mod(seed.y * 120. - uTime * fall, 120.) + max(uCam.y - 70., 0.);
+          vec3 vel = vec3(-3.5, -fall, 1.5) / fall;
+          p += vel * endp * -1.1;
+          vec4 mv = modelViewMatrix * vec4(p, 1.);
+          gl_Position = projectionMatrix * mv;
+          float dist = -mv.z;
+          vA = uRain * (.35 + .35 * uLights * (1. - uDay)) * smoothstep(2., 8., dist) * (1. - smoothstep(60., 110., dist)) * (1. - endp * .7);
+        }`,
+      fragmentShader: `varying float vA; void main(){ gl_FragColor = vec4(vec3(.75, .82, .95) * vA, 1.); }`,
+    }));
+    this.rain.frustumCulled = false;
+    this.rain.visible = false;
+    this.scene.add(this.rain);
   }
 
   // Floodlights warm up sector by sector, then the shell glows.

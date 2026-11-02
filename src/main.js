@@ -182,6 +182,7 @@ const VIEWS = {
   about:   { shot: () => frame([5, 4.5, 26], [0, 2.6, 44.5], 'left', 0.18), fov: 46, shell: ['#b8ecff', '#ffffff', 0.3], parent: 'stadium', crumb: "Players' tunnel · About" },
   honours: { shot: () => frame([8, 3.2, 8], [0, 2.4, 0], 'left', 0.2), fov: 44, shell: ['#f3c75a', '#62c8ff', 1], parent: 'stadium', crumb: 'Centre spot · Honours' },
   bench:   { shot: () => frame([24, 5, 29], [12, 1.5, 42.5], 'left', 0.2), fov: 46, shell: ['#62c8ff', '#d4ff3a', 0.4], parent: 'stadium', crumb: 'The dugout · Bench' },
+  resume:  { shot: () => frame([-40, 22, 4], [-80, 33, 0], 'right', 0.26), fov: 42, shell: ['#62c8ff', '#ffffff', 0.4], parent: 'stadium', crumb: 'Big screen · Résumé' },
   penalty: { shot: () => ({ pos: [33.2, 2.5, 0], target: [52.5, 1.3, 0] }), fov: 38, shell: ['#62c8ff', '#d4ff3a', 1], parent: 'stadium', crumb: 'Penalty spot · Shootout' },
   contact: { shot: () => frame([8, 7, -26], [0, 24, -75], 'right', 0.2), fov: 44, shell: ['#62c8ff', '#ffffff', 1], parent: 'stadium', crumb: 'Press box · Contact' },
 };
@@ -199,6 +200,7 @@ const SCENES = {
   honours: ['Centre spot', 'The trophy rises: hackathon wins, leadership and roles.'],
   bench: ['The dugout', 'Substitutes: earlier-stage projects warming up.'],
   contact: ['Press box', 'The transfer window is open. Get in touch.'],
+  resume: ['The contract', 'The big screen switches to the résumé. Download it or read it here.'],
   penalty: ['Penalty shootout', 'Five kicks against the BUGS FC keeper. Aim with the mouse, click to shoot.'],
 };
 let sceneNo = 0;
@@ -288,7 +290,7 @@ async function go(route) {
   const isCaptain = route.view === 'player' && squad[route.i].captain;
   stadium.spotlight(isCaptain ? squad[route.i].at : null);
   if (isCaptain && !(prev.view === 'player' && prev.i === route.i)) setTimeout(() => stadium.launchFireworks(8, ['#f3c75a', '#7fd4ff', '#ffffff']), 1600);
-  stadium.drawScreen(route.view === 'skills' ? 'skills' : 'board');
+  stadium.drawScreen(route.view === 'skills' ? 'skills' : route.view === 'resume' ? 'resume' : 'board');
   const [a, b, chase] = isCaptain ? ['#f3c75a', '#7fd4ff', 1] : cfg.shell;
   stadium.setShell(a, b, chase);
 
@@ -307,11 +309,12 @@ async function go(route) {
     stadium.giveBall(0);
   }
   if (route.view !== 'player') scout.streak = 0;
-  if (['about', 'squad', 'skills', 'honours', 'bench', 'contact', 'stadium'].includes(route.view)) scout.visit(route.view);
+  if (['about', 'squad', 'skills', 'resume', 'honours', 'bench', 'contact', 'stadium'].includes(route.view)) scout.visit(route.view);
   if (route.view === 'stadium') scout.award('kickoff');
   if (route.view === 'honours') scout.award('trophy');
   if (route.view === 'contact') scout.award('transfer');
   if (route.view === 'skills') scout.award('analyst');
+  if (route.view === 'resume') scout.award('cv');
 
   const shot = route.view === 'player' ? playerShot(route.i) : cfg.shot();
   busy = true;
@@ -366,19 +369,31 @@ $('#soundBtn').addEventListener('click', () => {
 });
 
 // day / night
-function setDay(on, animate = true) {
-  document.body.classList.toggle('is-day', on);
-  $('#dayBtn').setAttribute('aria-pressed', String(on));
-  $('#dayLabel').textContent = on ? 'DAY' : 'NIGHT';
-  stadium?.setDay(on, animate ? 2.4 : 0.01);
-  try { localStorage.setItem('sdp42fc.day', on ? '1' : '0'); } catch { /* ignore */ }
+function setTime(mode, animate = true) {
+  document.body.classList.toggle('is-day', mode !== 'night');
+  document.body.dataset.time = mode;
+  $$('.timectl [data-time]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.time === mode)));
+  stadium?.setTime(mode, animate ? 2.6 : 0.01);
+  try { localStorage.setItem('sdp42fc.time', mode); } catch { /* ignore */ }
 }
-$('#dayBtn').addEventListener('click', () => {
-  setDay(!document.body.classList.contains('is-day'));
+function setRain(on, animate = true) {
+  document.body.classList.toggle('is-rain', on);
+  $('#rainBtn').setAttribute('aria-pressed', String(on));
+  stadium?.setRain(on, animate ? 2 : 0.01);
+  audio.rain(on);
+  try { localStorage.setItem('sdp42fc.rain', on ? '1' : '0'); } catch { /* ignore */ }
+}
+$$('.timectl [data-time]').forEach((b) => b.addEventListener('click', () => {
+  if (document.body.dataset.time === b.dataset.time) return;
+  setTime(b.dataset.time);
   audio.whoosh(2.2);
   scout.award('daynight');
-});
-try { if (localStorage.getItem('sdp42fc.day') === '1') setDay(true, false); } catch { /* ignore */ }
+}));
+$('#rainBtn').addEventListener('click', () => setRain(!document.body.classList.contains('is-rain')));
+try {
+  setTime(localStorage.getItem('sdp42fc.time') || (localStorage.getItem('sdp42fc.day') === '1' ? 'day' : 'night'), false);
+  if (localStorage.getItem('sdp42fc.rain') === '1') setRain(true, false);
+} catch { setTime('night', false); }
 
 $('#waveBtn').addEventListener('click', () => {
   stadium?.startWave();
