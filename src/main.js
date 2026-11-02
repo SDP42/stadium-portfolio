@@ -189,7 +189,7 @@ const VIEWS = {
 // Hotspots: clickable zone markers projected from 3D.
 // Scene cards: what each camera stop is, in the broadcast lower-third.
 const SCENES = {
-  home: ['Outside the arena', 'A twin of a cushion-shell stadium. The facade changes colour with every section.'],
+  home: ['Outside the arena', 'An Etihad-style twin: spiral ramp towers, cable-stayed masts, a saddle roof. The light band changes colour with every section.'],
   stadium: ['Inside the arena', 'Every glowing marker is a section. Click one and the camera flies you there.'],
   squad: ['The pitch · 4-3-3', 'Eleven projects line up as a starting XI. Click any player.'],
   player: ['Player cam', 'Each project is a player. “Pass to” sends the ball, and the camera, to the next one.'],

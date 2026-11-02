@@ -1,6 +1,6 @@
-// A night-match digital twin of a cushion-shell football arena (inspired by
-// Munich's Allianz Arena): glowing diamond facade, steep three-tier bowl,
-// ring of roof floodlights, plus everything the portfolio needs to fly between.
+// A night-match digital twin of an Etihad-style football stadium: spiral ramp
+// towers, cable-stayed masts, a saddle roof and a sky-blue three-tier bowl,
+// plus everything the portfolio needs to fly between.
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -56,11 +56,13 @@ function canvasTex(w, h, draw) {
 }
 
 // Stand profile: (offset from the front row, height). Three tiers with concourse bands.
-const BOWL = { A: 66, B: 47, n: 3 };
+const BOWL = { A: 66, B: 47, n: 4 };
 const STAND = [[0, 0], [0, 1.4], [17, 12.5], [17, 16], [19, 16.5], [29, 25], [29, 29], [31, 29.5], [44, 44]];
 const TIERS = [[1, 2], [4, 5], [7, 8]]; // seating segments of STAND
-const ROOF_OPEN = { A: 70, B: 52, n: 3, y: 48.5 };
-const SHELL = { A: 116, B: 99, n: 2.6 };
+const ROOF_OPEN = { A: 72, B: 53, n: 4, y: 48.5 };
+const SHELL = { A: 120, B: 101, n: 4 };
+// saddle roof: lower at the ends, higher along the sides
+const roofOutY = (t) => 46 + 6 * Math.sin(t) ** 2;
 
 export class Stadium {
   constructor(canvas, { mobile = false } = {}) {
@@ -149,7 +151,7 @@ export class Stadium {
             vec3 nHor = mix(vec3(0.04,0.05,0.09), vec3(0.07,0.1,0.16), uLights);
             vec3 night = mix(nHor, nTop, smoothstep(-0.02, 0.35, h)) + vec3(0.1,0.25,0.4) * exp(-abs(h)*28.) * 0.3 * uLights;
             // day: sky blue gradient, warm horizon, sun disc and drifting clouds
-            vec3 dTop = vec3(0.16,0.42,0.82), dHor = vec3(0.72,0.84,0.95);
+            vec3 dTop = vec3(0.1,0.33,0.75), dHor = vec3(0.6,0.76,0.92);
             vec3 day = mix(dHor, dTop, pow(smoothstep(-0.05, 0.6, h), 0.7));
             float sd = max(dot(d, uSun), 0.);
             day += vec3(1., .9, .7) * (pow(sd, 900.) * 6. + pow(sd, 12.) * .25);
@@ -198,7 +200,7 @@ export class Stadium {
             // tiles
             vec2 tg = abs(fract(p / 3.) - .5);
             float tile = smoothstep(.47, .5, max(tg.x, tg.y));
-            vec3 dayPave = vec3(.62, .64, .66) - tile * .06 + (hash(floor(p / 3.)) - .5) * .03;
+            vec3 dayPave = vec3(.47, .49, .52) - tile * .06 + (hash(floor(p / 3.)) - .5) * .03;
             vec3 dayGrass = vec3(.22, .38, .17) + (hash(floor(p / 4.)) - .5) * .04;
             vec3 dayRoad = vec3(.18, .19, .21) + step(.96, fract(atan(p.y, p.x) * 60.)) * step(abs(d - 309.), .4) * .5;
             vec3 dayC = mix(mix(dayGrass, dayPave, paved), dayRoad, road);
@@ -296,7 +298,7 @@ export class Stadium {
             fwd = -vec2(.62, .78);
           } else {                          // stroll round the esplanade
             float a = route.y * 6.2832 + t * 6.2832 * sign(route.z) * .25;
-            float r = 150. + abs(route.z) * 3.5;
+            float r = 168. + abs(route.z) * 3.;
             base = vec3(cos(a) * r * 1.12, 0., sin(a) * r);
             fwd = normalize(vec2(-sin(a), cos(a)));
           }
@@ -647,66 +649,140 @@ export class Stadium {
     }
   }
 
+  // Etihad-style exterior: finned silver facade with a light band, a saddle
+  // roof on a truss ring, 12 spiral ramp towers and 8 cable-stayed masts.
   buildShell() {
-    // outer cushion shell: profile (scale of the plan shape, height)
-    const prof = new THREE.CatmullRomCurve3([
-      [0.965, 0], [1.04, 8], [1.085, 20], [1.075, 32], [1.03, 42], [0.96, 49], [0.9, 52],
-    ].map(([s, y]) => new THREE.Vector3(s, y, 0))).getPoints(48);
-    const shellGeo = surface(this.mobile ? 160 : 260, prof.length - 1, (u, v) => {
-      const p = prof[Math.round(v * (prof.length - 1))];
-      const [x, z] = se(u * TAU, SHELL.A * p.x, SHELL.B * p.x, SHELL.n);
-      return [x, p.y, z];
-    });
-    const roofGeo = surface(this.mobile ? 160 : 260, 14, (u, v) => {
+    const U = this.mobile ? 180 : 320;
+    const facadeGeo = surface(U, 24, (u, v) => {
       const t = u * TAU;
-      const [ox, oz] = se(t, SHELL.A * 0.9, SHELL.B * 0.9, SHELL.n);
+      const top = roofOutY(t);
+      const lean = 1 - v * v * 0.015;
+      const [x, z] = se(t, SHELL.A * lean, SHELL.B * lean, SHELL.n);
+      return [x, v * top, z];
+    });
+    const roofGeo = surface(U, 14, (u, v) => {
+      const t = u * TAU;
+      const [ox, oz] = se(t, SHELL.A, SHELL.B, SHELL.n);
       const [ix, iz] = se(t, ROOF_OPEN.A, ROOF_OPEN.B, ROOF_OPEN.n);
-      return [ox + (ix - ox) * v, 52 + (ROOF_OPEN.y - 52) * v + Math.sin(v * Math.PI) * 1.6, oz + (iz - oz) * v];
+      const y0 = roofOutY(t);
+      return [ox + (ix - ox) * v, y0 + (ROOF_OPEN.y - y0) * v + Math.sin(v * Math.PI) * 1.2, oz + (iz - oz) * v];
     });
 
-    const mk = (kind, cells) => new THREE.ShaderMaterial({
-      side: THREE.DoubleSide,
-      uniforms: {
-        ...this.uniforms,
-        uA: { value: this.shellColor.a }, uB: { value: this.shellColor.b },
-        uChase: { value: 0 }, uPower: { value: 0 }, uKind: { value: kind }, uCells: { value: new THREE.Vector2(...cells) },
-      },
-      vertexShader: `varying vec2 vUv; varying vec3 vW; void main(){ vUv = uv; vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`,
+    const common = () => ({
+      ...this.uniforms,
+      uA: { value: this.shellColor.a }, uB: { value: this.shellColor.b },
+      uChase: { value: 0 }, uPower: { value: 0 },
+    });
+    const vert = `varying vec2 vUv; varying vec3 vW; void main(){ vUv = uv; vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`;
+
+    this.shellMat = new THREE.ShaderMaterial({
+      side: THREE.DoubleSide, uniforms: common(), vertexShader: vert,
       fragmentShader: `varying vec2 vUv; varying vec3 vW;
-        uniform vec3 uA, uB, uCam; uniform float uChase, uPower, uTime, uKind, uDay; uniform vec2 uCells;
-        float hash(vec2 p){ return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5); }
+        uniform vec3 uA, uB, uCam; uniform float uChase, uPower, uTime, uDay, uLights;
         void main(){
-          vec2 p = vUv * uCells;
-          vec2 d = vec2(p.x + p.y, p.x - p.y);
-          vec2 cell = floor(d); vec2 f = fract(d) - .5;
-          float edge = max(abs(f.x), abs(f.y));
-          float seam = smoothstep(.40, .49, edge);
-          float pillow = 1. - dot(f, f) * 1.6;
-          bool outside = uKind < .5
-            ? length(uCam.xz / vec2(${SHELL.A}., ${SHELL.B}.)) > length(vW.xz / vec2(${SHELL.A}., ${SHELL.B}.))
-            : uCam.y > vW.y;
-          float chase = .5 + .5 * sin(cell.x * .21 - uTime * 3.2 + cell.y * .07);
-          float sparkle = step(.985, hash(cell + floor(uTime * 3.)));
-          vec3 col = mix(uA, uB, mix(.0, chase, uChase));
-          col += sparkle * uChase * .8;
-          float glow = (.55 + .55 * pillow) * (1. - seam * .9);
-          vec3 c;
-          if (uKind < .5) {
-            vec3 night = col * glow * (0.03 + uPower * 0.95) + vec3(.015) * (1. - seam);
-            vec3 day = mix(vec3(.80, .85, .9), col, .28) * (.62 + .38 * pillow) * (1. - seam * .55) + col * uPower * .12;
-            c = outside ? mix(night, day, uDay)
-                        : mix(vec3(.03, .03, .045), vec3(.32, .35, .4), uDay) * (1. - seam * .5);
-          } else {
-            // roof: translucent white cushions on top, dark underside
-            c = outside ? mix(mix(vec3(.12, .13, .16), col * .35, uPower * .5) * glow, vec3(.85, .9, .95) * (.7 + .3 * pillow), uDay)
-                        : mix(vec3(.018, .02, .03) + vec3(.03) * (1. - seam), vec3(.38, .42, .48) * (1. - seam * .4), uDay);
-          }
+          bool outside = length(uCam.xz / vec2(${SHELL.A}., ${SHELL.B}.)) > length(vW.xz / vec2(${SHELL.A}., ${SHELL.B}.)) * 1.002;
+          float fin = smoothstep(.0, .06, fract(vUv.x * 540.)) * smoothstep(.22, .14, fract(vUv.x * 540.));
+          float floorLine = smoothstep(.12, .0, abs(fract(vW.y / 7.) - .02));
+          float glass = step(8.5, vW.y) * step(vW.y, 12.5) + step(22.5, vW.y) * step(vW.y, 26.);
+          float band = smoothstep(.9, .93, vUv.y) * smoothstep(1., .97, vUv.y);
+          float chase = .5 + .5 * sin(vUv.x * 6.2832 * 6. - uTime * 2.);
+          vec3 led = mix(uA, uB, chase * uChase);
+          // day: brushed silver fins over glazing
+          vec3 day = mix(vec3(.46, .5, .55), vec3(.74, .77, .8), fin) * (1. - floorLine * .3);
+          day = mix(day, vec3(.35, .45, .55), glass * (1. - fin) * .7);
+          day += led * band * uPower * .25;
+          // night: dark skin, glowing concourse glass, sky-blue LED band and uplight
+          vec3 night = vec3(.025, .03, .045) + fin * .03;
+          night += vec3(1., .82, .55) * glass * (1. - fin) * .55 * uLights;
+          night += led * band * uPower * 2.4;
+          night += led * exp(-vW.y / 7.) * .35 * uPower;
+          vec3 c = mix(night, day, uDay);
+          if (!outside) c = mix(vec3(.03, .035, .045), vec3(.3, .32, .36), uDay) * (1. - floorLine * .3);
           gl_FragColor = vec4(c, 1.);
         }`,
     });
-    this.shellMat = mk(0, [92, 9]);
-    this.roofMat = mk(1, [92, 3]);
-    this.scene.add(new THREE.Mesh(shellGeo, this.shellMat), new THREE.Mesh(roofGeo, this.roofMat));
+    this.roofMat = new THREE.ShaderMaterial({
+      side: THREE.DoubleSide, uniforms: common(), vertexShader: vert,
+      fragmentShader: `varying vec2 vUv; varying vec3 vW;
+        uniform vec3 uA, uCam; uniform float uPower, uDay;
+        void main(){
+          bool above = uCam.y > vW.y;
+          float seam = smoothstep(.0, .05, fract(vUv.x * 240.)) * smoothstep(.12, .07, fract(vUv.x * 240.));
+          float ring = smoothstep(.0, .04, abs(fract(vUv.y * 5.) - .5) - .45);
+          float clear = smoothstep(.72, .8, vUv.y); // translucent inner strip
+          vec3 dayTop = mix(vec3(.78, .8, .83), vec3(.9, .93, .96), clear) - seam * .06 - ring * .05;
+          vec3 nightTop = mix(vec3(.08, .09, .11), uA * .25 * uPower, clear) + seam * .02;
+          vec3 under = mix(vec3(.02, .025, .035), vec3(.36, .38, .42), uDay) + seam * .03 + clear * mix(.03, .2, uDay);
+          vec3 c = above ? mix(nightTop, dayTop, uDay) : under;
+          gl_FragColor = vec4(c, 1.);
+        }`,
+    });
+    this.scene.add(new THREE.Mesh(facadeGeo, this.shellMat), new THREE.Mesh(roofGeo, this.roofMat));
+
+    // compression ring along the roof's outer edge
+    const ringPts = [];
+    for (let i = 0; i <= 160; i++) { const t = (i / 160) * TAU; const [x, z] = se(t, SHELL.A + 0.6, SHELL.B + 0.6, SHELL.n); ringPts.push(new THREE.Vector3(x, roofOutY(t) + 0.3, z)); }
+    const steel = new THREE.MeshStandardMaterial({ color: '#c9ced6', metalness: 0.75, roughness: 0.35 });
+    this.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(ringPts, true), 320, 0.7, 8, true), steel));
+
+    // spiral ramp towers (shared geometry), 8 carrying masts
+    const turns = 4, H = 34, rIn = 3.2, rOut = 7.6;
+    const ramp = surface(turns * 40, 1, (u, v) => { const a = u * turns * TAU; const r = rIn + (rOut - rIn) * v; return [Math.cos(a) * r, u * H + 0.4, Math.sin(a) * r]; });
+    const parapet = surface(turns * 40, 1, (u, v) => { const a = u * turns * TAU; return [Math.cos(a) * rOut, u * H + 0.4 + v * 1.3, Math.sin(a) * rOut]; });
+    const core = new THREE.CylinderGeometry(rIn, rIn, H + 2, 24); core.translate(0, (H + 2) / 2, 0);
+    const cap = new THREE.CylinderGeometry(rOut + 0.3, rOut + 0.3, 1.2, 32); cap.translate(0, H + 1.6, 0);
+    const concrete = new THREE.MeshStandardMaterial({ color: '#7d848d', roughness: 0.9, side: THREE.DoubleSide });
+    this.towerMat = concrete;
+    const lampPos = [];
+    this.aviation = [];
+    for (let i = 0; i < 12; i++) {
+      const t = ((i + 0.5) / 12) * TAU;
+      const [x, z] = se(t, SHELL.A + 13, SHELL.B + 13, SHELL.n);
+      const g = new THREE.Group();
+      g.position.set(x, 0, z);
+      g.rotation.y = i * 0.7;
+      for (const geom of [ramp, parapet, core, cap]) { const m = new THREE.Mesh(geom, concrete); m.castShadow = !this.mobile; g.add(m); }
+      this.scene.add(g);
+      for (let k = 0; k < turns * 10; k++) {
+        const a = (k / 10) * TAU + i * 0.7, y = (k / (turns * 10)) * H + 1.6;
+        lampPos.push(x + Math.cos(-a) * (rOut - 0.2), y, z + Math.sin(-a) * (rOut - 0.2));
+      }
+      if (i % 3 === 1) continue; // 8 of the 12 towers carry a mast
+      const out = new THREE.Vector3(x, 0, z).normalize();
+      const base = new THREE.Vector3(x, H + 2, z);
+      const top = base.clone().addScaledVector(out, 7).add(new THREE.Vector3(0, 56, 0));
+      const mastLen = base.distanceTo(top);
+      const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 1.0, mastLen, 12), steel);
+      mast.position.copy(base).lerp(top, 0.5);
+      mast.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), top.clone().sub(base).normalize());
+      mast.castShadow = !this.mobile;
+      this.scene.add(mast);
+      // cable stays fanning to the roof edge, plus two back-stays to the ground
+      const cables = [];
+      for (let k = -3; k <= 3; k++) {
+        const tt = t + k * 0.055;
+        const [rx, rz] = se(tt, SHELL.A, SHELL.B, SHELL.n);
+        cables.push(top.x, top.y, top.z, rx, roofOutY(tt) + 0.4, rz);
+      }
+      for (const s of [-1, 1]) {
+        const side = new THREE.Vector3(-out.z, 0, out.x).multiplyScalar(s * 12);
+        const anchor = new THREE.Vector3(x, 0, z).addScaledVector(out, 26).add(side);
+        cables.push(top.x, top.y, top.z, anchor.x, 0.2, anchor.z);
+      }
+      const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.Float32BufferAttribute(cables, 3));
+      this.scene.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xbfc7d2, transparent: true, opacity: 0.85 })));
+      const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.6, 10, 8), new THREE.MeshBasicMaterial({ color: '#ff2a2a', toneMapped: false }));
+      beacon.position.copy(top).add(new THREE.Vector3(0, 0.8, 0));
+      this.scene.add(beacon);
+      this.aviation.push(beacon);
+    }
+    // warm lights along every ramp (off by day)
+    const lg = new THREE.BufferGeometry(); lg.setAttribute('position', new THREE.Float32BufferAttribute(lampPos, 3));
+    this.scene.add(new THREE.Points(lg, new THREE.ShaderMaterial({
+      uniforms: this.uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: `uniform float uDay; varying float vA; void main(){ vec4 mv = modelViewMatrix*vec4(position,1.); gl_Position = projectionMatrix*mv; gl_PointSize = 260. / -mv.z; vA = 1. - uDay; }`,
+      fragmentShader: `varying float vA; void main(){ float d = length(gl_PointCoord - .5); gl_FragColor = vec4(vec3(1., .85, .6) * exp(-d * 10.) * 2. * vA, 1.); }`,
+    })));
   }
 
   buildLights() {
@@ -742,14 +818,15 @@ export class Stadium {
     const N = 72;
     for (let i = 0; i < N; i++) {
       const t = (i / N) * TAU;
-      const [ox, oz] = se(t, SHELL.A * 0.9, SHELL.B * 0.9, SHELL.n);
+      const [ox, oz] = se(t, SHELL.A, SHELL.B, SHELL.n);
       const [ix, iz] = se(t, ROOF_OPEN.A, ROOF_OPEN.B, ROOF_OPEN.n);
-      truss.push(ox, 50.6, oz, ix, ROOF_OPEN.y - 0.7, iz);
-      truss.push(ox, 49.2, oz, (ox + ix) / 2, 48.2, (oz + iz) / 2, (ox + ix) / 2, 48.2, (oz + iz) / 2, ix, ROOF_OPEN.y - 0.7, iz);
+      const yo = roofOutY(t) - 0.4, ym = (yo + ROOF_OPEN.y) / 2 - 1.6;
+      truss.push(ox, yo, oz, ix, ROOF_OPEN.y - 0.7, iz);
+      truss.push(ox, yo - 1.6, oz, (ox + ix) / 2, ym, (oz + iz) / 2, (ox + ix) / 2, ym, (oz + iz) / 2, ix, ROOF_OPEN.y - 0.7, iz);
     }
     for (const f of [0.35, 0.7]) {
       for (let i = 0; i < N; i++) {
-        const p = (j) => { const t = (j / N) * TAU; const [ox, oz] = se(t, SHELL.A * 0.9, SHELL.B * 0.9, SHELL.n); const [ix, iz] = se(t, ROOF_OPEN.A, ROOF_OPEN.B, ROOF_OPEN.n); return [ox + (ix - ox) * f, 50 - f * 1.4, oz + (iz - oz) * f]; };
+        const p = (j) => { const t = (j / N) * TAU; const [ox, oz] = se(t, SHELL.A, SHELL.B, SHELL.n); const [ix, iz] = se(t, ROOF_OPEN.A, ROOF_OPEN.B, ROOF_OPEN.n); const yo = roofOutY(t); return [ox + (ix - ox) * f, yo + (ROOF_OPEN.y - yo) * f - 1.2, oz + (iz - oz) * f]; };
         truss.push(...p(i), ...p(i + 1));
       }
     }
@@ -1212,7 +1289,7 @@ export class Stadium {
     const p0 = r.pos.clone(), t0 = r.target.clone(), f0 = r.fov;
     const p2 = new THREE.Vector3(...pos), t2 = new THREE.Vector3(...target);
     const dist = p0.distanceTo(p2);
-    const dur = duration ?? THREE.MathUtils.clamp(1.3 + dist / 120, 1.5, 3.2);
+    const dur = duration ?? THREE.MathUtils.clamp(1.7 + dist / 110, 1.9, 3.6);
     // control point: lift over the action; when crossing the shell go over the roof
     const inside = (v) => Math.abs(v.x) < 100 && Math.abs(v.z) < 85 && v.y < 52;
     const ctrl = p0.clone().lerp(p2, 0.5);
@@ -1237,7 +1314,7 @@ export class Stadium {
           );
           const tt = gsap.parseEase('power2.inOut')(t);
           r.target.lerpVectors(t0, t2, tt);
-          r.fov = f0 + (fov - f0) * tt + Math.sin(t * Math.PI) * (crossing ? 14 : 7);
+          r.fov = f0 + (fov - f0) * tt + Math.sin(t * Math.PI) * (crossing ? 9 : 4);
           r.drift = drift * t;
         },
         onComplete: () => { r.orbit = orbit; this.flight = null; res(); },
@@ -1254,7 +1331,7 @@ export class Stadium {
     gsap.to(this.roofMat.uniforms.uPower, { value: power, duration: 1.2 });
   }
 
-  keyLevel() { return this.isDay ? 3.2 : 1.8; }
+  keyLevel() { return this.isDay ? 2.6 : 1.8; }
 
   // Day ↔ night: sky, sun, fog, exposure, bloom, stars and every light crossfade.
   setDay(on, duration = 2.4) {
@@ -1267,14 +1344,16 @@ export class Stadium {
     const sp = on ? this.sunDir.clone().multiplyScalar(150) : new THREE.Vector3(30, 120, 40);
     gsap.to(this.sun.position, { x: sp.x, y: sp.y, z: sp.z, duration });
     gsap.to(this.fill, { intensity: on ? 0.9 : 1.1, duration });
-    gsap.to(this.pitchLights, { intensity: on ? 1.1 : 0.7, duration });
+    gsap.to(this.pitchLights, { intensity: on ? 0.6 : 0.7, duration });
+    const tc = new THREE.Color(on ? '#c4c8cd' : '#7d848d');
+    gsap.to(this.towerMat.color, { r: tc.r, g: tc.g, b: tc.b, duration });
     const fogCol = new THREE.Color(on ? '#bcd6ec' : '#05080d');
     gsap.to(this.scene.fog.color, { r: fogCol.r, g: fogCol.g, b: fogCol.b, duration });
     gsap.to(this.scene.fog, { density: on ? 0.00055 : 0.0011, duration });
-    gsap.to(this.renderer, { toneMappingExposure: on ? 0.92 : 1.05, duration });
+    gsap.to(this.renderer, { toneMappingExposure: on ? 0.82 : 1.05, duration });
     gsap.to(this.bloom, { strength: on ? 0.2 : 0.62, duration });
     gsap.to(this.stars.material, { opacity: on ? 0 : 0.85, duration });
-    gsap.to(this.scene, { environmentIntensity: on ? 0.9 : 0.35, duration });
+    gsap.to(this.scene, { environmentIntensity: on ? 0.55 : 0.35, duration });
   }
 
   // Floodlights warm up sector by sector, then the shell glows.
@@ -1412,7 +1491,7 @@ export class Stadium {
     const want = r.target.clone().add(off);
     want.x += Math.sin(t * 0.31) * 0.6 * r.drift;
     want.y += Math.sin(t * 0.47) * 0.35 * r.drift;
-    const k = 1 - Math.exp(-dt * 7);
+    const k = 1 - Math.exp(-dt * 4.5);
     if (!this.smoothPos) { this.smoothPos = want.clone(); this.smoothTarget = r.target.clone(); }
     this.smoothPos.lerp(want, k);
     this.smoothTarget.lerp(r.target, k);
@@ -1504,12 +1583,40 @@ export class Stadium {
       this.fwWasAlive = alive;
     }
 
+    // mast beacons blink
+    const blink = Math.sin(t * 3.2) > 0.6 ? 1 : 0.15;
+    this.aviation?.forEach((b) => { b.material.color.setRGB(blink, 0.08 * blink, 0.08 * blink); });
+
     // flags flutter
     this.flags?.forEach((f, i) => { f.rotation.y = Math.sin(t * 3 + i) * 0.4; });
 
     // trophy spin
     this.trophy.rotation.y += dt * 0.5;
 
+    this.adaptQuality(dt);
     this.composer.render();
+  }
+
+  // Keep motion fluid: if frames run long, step down pixel ratio, then shadows.
+  adaptQuality(dt) {
+    const q = (this.quality ||= { n: 0, sum: 0, level: 2, wait: 3 });
+    if (q.level === 0) return;
+    if (q.wait > 0) { q.wait -= dt; return; }
+    q.sum += dt; q.n++;
+    if (q.n < 90) return;
+    const avg = q.sum / q.n;
+    q.n = 0; q.sum = 0;
+    if (avg < 1 / 45) return;
+    if (q.level === 2) {
+      this.renderer.setPixelRatio(1);
+      this.resize();
+      q.level = 1; q.wait = 1.5;
+    } else {
+      this.renderer.shadowMap.enabled = false;
+      this.sun.castShadow = false; this.spot.castShadow = false;
+      this.scene.traverse((o) => { if (o.material) [].concat(o.material).forEach((m) => { m.needsUpdate = true; }); });
+      this.bloom.resolution.set(window.innerWidth / 3, window.innerHeight / 3);
+      q.level = 0;
+    }
   }
 }

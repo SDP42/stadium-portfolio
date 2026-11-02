@@ -1,6 +1,6 @@
 # SDP42 FC · Swayam Panchal's portfolio
 
-A portfolio you walk into. A real-time 3D twin of a cushion-shell football stadium (inspired by Munich's Allianz Arena), lit sky blue, full of fans, with a live match on the pitch. Each section of the portfolio is a place in the stadium, and the camera flies you there.
+A portfolio you walk into. A real-time 3D twin of a football stadium inspired by Manchester's Etihad Stadium, lit sky blue, full of fans, with a live match on the pitch. Each section of the portfolio is a place in the stadium, and the camera flies you there.
 
 **Swayam Panchal** · B.Tech AI & Data Science, DJ Sanghvi College of Engineering (CGPA 9.70) · 5× hackathon winner
 [GitHub](https://github.com/SDP42) · [LinkedIn](https://www.linkedin.com/in/swayam-panchal-11281b34a/)
@@ -31,12 +31,12 @@ npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 Scroll, swipe or use the arrow keys to walk the story (outside → inside → players 1 to 11 → goal). Esc zooms out. Every route is a shareable URL.
 
 ## What makes it feel real
-- **Stadium twin:** diamond-cushion facade that changes colour per section, three-tier bowl with seat rows and aisles, roof trusses, a ring of floodlights with glare and light shafts, LED boards, glass dugouts, players' tunnel, press box, goals with nets, corner flags.
+- **Stadium twin (Etihad-style):** 12 spiral ramp towers, 8 cable-stayed masts with blinking beacons, a saddle-shaped roof on a truss ring, a finned silver facade whose LED band changes colour per section, a tight three-tier bowl with seat rows and aisles, roof trusses, a ring of floodlights with glare and light shafts, LED boards, glass dugouts, players' tunnel, press box, goals with nets, corner flags.
 - **Full house:** around 44,000 instanced fans, one per seat, with an "SDP42" tifo mosaic, arms up in the Mexican wave, camera flashes and waving flags.
 - **Live match:** both XIs and a referee with articulated running animation. Players jog, press, face the ball, sprint onto passes and kick. The ball rolls with real spin, or lofts and bounces; the selected player does keepy-uppies.
 - **Outside:** esplanade paving, a winding approach path, trees, street lamps, fans walking in, ring-road traffic and a city skyline with lit windows.
 - **Day / night:** one switch crossfades sky, sun, clouds, fog, exposure, bloom, floodlights, lamps, windows and the facade.
-- **Cinematic camera:** damped swooping flights, a speed-based chromatic blur, letterbox bars with a broadcast caption, a stinger wipe between outside and inside, and panels that reveal with a mask wipe.
+- **Cinematic camera:** long, damped swooping flights, adaptive quality that keeps motion smooth on slower machines, a speed-based chromatic blur, letterbox bars with a broadcast caption, a stinger wipe between outside and inside, and panels that reveal with a mask wipe.
 - **Sound** (opt-in): crowd ambience, whooshes, the referee's whistle, a goal roar and fireworks. All synthesised with Web Audio, so there are no audio files.
 
 ## Scout mode (gamification)
