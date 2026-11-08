@@ -32,12 +32,12 @@ npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 Scroll, swipe or use the arrow keys to walk the story (outside → inside → players 1 to 11 → goal). Esc zooms out. Every route is a shareable URL.
 
 ## What makes it feel real
-- **Stadium twin (Etihad-style):** 12 spiral ramp towers, 8 cable-stayed masts with blinking beacons, a saddle-shaped roof on a truss ring, a finned silver facade whose LED band changes colour per section, a tight three-tier bowl with seat rows and aisles, roof trusses, a ring of floodlights with glare and light shafts, LED boards, glass dugouts, players' tunnel, press box, goals with nets, corner flags.
-- **Full house:** around 44,000 instanced fans, one per seat, with an "SDP42" tifo mosaic, arms up in the Mexican wave, camera flashes and waving flags.
+- **Stadium twin (Etihad-style, modelled from photos):** drum towers with a sky-blue spiral stripe, cable-stayed masts and V-struts, a saddle roof with a grey metal band, wide glazed inner band and white fascia, a banded glass-and-metal facade, and a three-tier sky-blue bowl with the white LED band.
+- **Full house:** 26,000 instanced fans with an "SDP42" tifo mosaic, the Mexican wave, camera flashes and waving flags.
 - **Live match:** both XIs and a referee with articulated running animation. Players jog, press, face the ball, sprint onto passes and kick. The ball rolls with real spin, or lofts and bounces; the selected player does keepy-uppies.
-- **Outside:** esplanade paving, a winding approach path, trees, street lamps, fans walking in, ring-road traffic and a city skyline with lit windows.
+- **Outside:** esplanade, approach path, marked car parks with parked cars, the academy stadium with its blue track, teal-roofed halls, brick terraces, trees, street lamps, fans walking in and ring-road traffic.
 - **Time of day and weather:** Day, Golden hour and Night crossfade sky, sun, clouds, fog, exposure, bloom, floodlights, lamps, windows and the facade. **Rain** adds falling streaks, an overcast sky, a wet glossy pitch and rain sound.
-- **Clarity:** multisampled HDR rendering keeps edges anti-aliased through bloom; up to 2× resolution on desktop.
+- **Performance first:** no shadow maps or CSS blur over the canvas, merged and instanced geometry, a roof-accurate sun shadow computed in the pitch shader, and adaptive quality that sheds anti-aliasing, resolution and glow if frames run long. Holds 60 fps on an Apple M1.
 - **Cinematic camera:** long, damped swooping flights, adaptive quality that keeps motion smooth on slower machines, a speed-based chromatic blur, letterbox bars with a broadcast caption, a stinger wipe between outside and inside, and panels that reveal with a mask wipe.
 - **Sound** (opt-in): crowd ambience, whooshes, the referee's whistle, a goal roar and fireworks. All synthesised with Web Audio, so there are no audio files.
 
@@ -57,4 +57,4 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 | `src/audio.js` | Synthesised stadium sound |
 | `src/style.css` | Interface |
 
-Built with [three.js](https://threejs.org) and [GSAP](https://gsap.com) on [Vite](https://vitejs.dev). Respects `prefers-reduced-motion`; phones get bottom-sheet panels and a lighter scene.
+Built with [three.js](https://threejs.org) and [GSAP](https://gsap.com) on [Vite](https://vitejs.dev), with [Vercel Web Analytics](https://vercel.com/docs/analytics). Respects `prefers-reduced-motion`; phones get bottom-sheet panels and a lighter scene.

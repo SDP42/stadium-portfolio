@@ -1,4 +1,5 @@
 import './style.css';
+import { inject } from '@vercel/analytics';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { Stadium } from './scene.js';
@@ -137,6 +138,7 @@ function scramble(el) {
 }
 
 // ------------------------------------------------------------ boot
+inject();
 fillContent();
 let stadium;
 try {
@@ -463,16 +465,6 @@ async function shootPenalty() {
 }
 $('#penAgain').addEventListener('click', () => { stadium.penaltyReset(); startShootout(); });
 
-// magnetic buttons
-document.addEventListener('pointermove', (e) => {
-  const b = e.target.closest('.btn, .nav a, .sound');
-  if (magnet && magnet !== b) { magnet.style.transform = ''; magnet = null; }
-  if (!b || mobile) return;
-  const r = b.getBoundingClientRect();
-  b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.18}px, ${(e.clientY - r.top - r.height / 2) * 0.25}px)`;
-  magnet = b;
-});
-let magnet = null;
 
 function zoomOut() {
   const p = VIEWS[current.view]?.parent;
@@ -542,12 +534,9 @@ function countUp() {
   });
 }
 
-// ------------------------------------------------------------ pointer: cursor, hover, drag, pick
-const cursor = $('.cursor');
-const cpos = { x: innerWidth / 2, y: innerHeight / 2 }, ctarget = { ...cpos };
+// ------------------------------------------------------------ pointer: hover, drag, pick
 let hoverIdx = -1, down = null;
 window.addEventListener('pointermove', (e) => {
-  ctarget.x = e.clientX; ctarget.y = e.clientY;
   if (!stadium) return;
   const nx = (e.clientX / innerWidth) * 2 - 1, ny = -(e.clientY / innerHeight) * 2 + 1;
   stadium.setMouse(nx, ny);
@@ -566,19 +555,15 @@ window.addEventListener('pointermove', (e) => {
       const off = Math.abs(pen.aim.z) > 3.6 || pen.aim.y > 2.4;
       r.classList.toggle('off', off);
     }
-    cursor.classList.toggle('aim', onStage);
-  } else cursor.classList.remove('aim');
+  }
   hoverIdx = onStage && ['stadium', 'squad', 'player'].includes(current.view) ? stadium.pickPlayer(nx, ny) : -1;
   const linkHover = e.target.closest('[data-hover-player]');
   if (linkHover) hoverIdx = +linkHover.dataset.hoverPlayer;
   stadium.setHover(hoverIdx);
-  cursor.classList.toggle('player', hoverIdx >= 0 && onStage);
-  cursor.classList.toggle('link', !!e.target.closest('a, button, input, textarea, .hotspot'));
-  cursor.classList.toggle('drag', onStage && ['home', 'stadium'].includes(current.view) && hoverIdx < 0);
+  $('#stage').style.cursor = !onStage ? '' : current.view === 'penalty' ? 'crosshair' : hoverIdx >= 0 ? 'pointer' : ['home', 'stadium'].includes(current.view) ? 'grab' : '';
 });
-$('#stage').addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY, moved: false }; cursor.classList.add('down'); });
+$('#stage').addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY, moved: false }; });
 window.addEventListener('pointerup', (e) => {
-  cursor.classList.remove('down');
   if (stadium) stadium.dragging = false;
   if (down && !down.moved && e.target === $('#stage') && stadium && current.view === 'penalty') {
     const nx = (e.clientX / innerWidth) * 2 - 1, ny = -(e.clientY / innerHeight) * 2 + 1;
@@ -593,13 +578,15 @@ window.addEventListener('pointerup', (e) => {
 
 // ------------------------------------------------------------ loop
 const clockEl = $('#clock');
+let lastSecond = -1;
 const t0 = performance.now();
 function loop() {
   requestAnimationFrame(loop);
-  cpos.x += (ctarget.x - cpos.x) * 0.22; cpos.y += (ctarget.y - cpos.y) * 0.22;
-  cursor.style.transform = `translate3d(${cpos.x}px, ${cpos.y}px, 0)`;
   const s = Math.floor((performance.now() - t0) / 1000);
-  clockEl.textContent = `${String(Math.min(90, Math.floor(s / 60))).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  if (s !== lastSecond) {
+    lastSecond = s;
+    clockEl.textContent = `${String(Math.min(90, Math.floor(s / 60))).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  }
   if (!stadium) return;
   stadium.update();
   // hotspots follow their 3D anchors

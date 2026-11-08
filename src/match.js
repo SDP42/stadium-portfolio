@@ -3,6 +3,7 @@
 // penalty shootout mini-game.
 import * as THREE from 'three';
 import gsap from 'gsap';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const TAU = Math.PI * 2;
 const BALL_R = 0.45;
@@ -18,64 +19,73 @@ function canvasTex(w, h, draw) {
   return t;
 }
 
-const std = (o) => new THREE.MeshStandardMaterial({ roughness: 0.7, ...o });
 const SKINS = ['#e9bf98', '#b97f55', '#8a5a3c', '#d9a77f', '#f1cfae', '#6e4630'];
 const shared = {};
 function geo(key, make) { return (shared[key] ||= make()); }
 
-// An articulated footballer. Forward is +z in the figure's local space.
-function makeFigure({ base, trim, number, shortsCol = '#f4f7fb', socksCol = base, skinCol, gloves, gold, shadows }) {
-  const shirt = std({
-    map: canvasTex(256, 256, (x, w, h) => {
+// An articulated footballer: 10 meshes, sharing geometry and one vertex-colour
+// material wherever possible. Forward is +z in the figure's local space.
+const vcMat = new THREE.MeshLambertMaterial({ vertexColors: true });
+const cache = new Map();
+const cached = (key, make) => { if (!cache.has(key)) cache.set(key, make()); return cache.get(key); };
+function paint(g, hex) {
+  const c = new THREE.Color(hex), a = new Float32Array(g.attributes.position.count * 3);
+  for (let i = 0; i < a.length; i += 3) { a[i] = c.r; a[i + 1] = c.g; a[i + 2] = c.b; }
+  g.setAttribute('color', new THREE.BufferAttribute(a, 3));
+  return g;
+}
+const cap = (r, l, y, z = 0) => new THREE.CapsuleGeometry(r, l, 3, 8).translate(0, y, z);
+const HAIRS = ['#1a120c', '#3a2616', '#0d0d0f', '#6b4a24'];
+
+function makeFigure({ base, trim, number, shortsCol = '#f4f7fb', socksCol = base, skinCol, hairCol = HAIRS[0], gloves, gold }) {
+  const shirt = cached(`shirt|${base}|${trim}|${number}`, () => new THREE.MeshLambertMaterial({
+    map: canvasTex(128, 128, (x, w, h) => {
       x.fillStyle = base; x.fillRect(0, 0, w, h);
-      x.fillStyle = trim; for (let i = 0; i < 6; i++) x.fillRect(i * 44 + 8, 0, 6, h);
+      x.fillStyle = trim; for (let i = 0; i < 6; i++) x.fillRect(i * 22 + 4, 0, 3, h);
       if (number != null) {
-        x.fillStyle = '#ffffff'; x.font = '900 110px Archivo, Arial, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+        x.fillStyle = '#ffffff'; x.font = '900 56px Archivo, Arial, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
         x.fillText(number, w * 0.75, h * 0.5);
       }
     }),
     emissive: base, emissiveIntensity: 0,
-  });
-  const skin = std({ color: skinCol, roughness: 0.6 });
-  const shorts = std({ color: shortsCol });
-  const socks = std({ color: socksCol });
-  const boots = std({ color: '#111', roughness: 0.35 });
-  const hair = std({ color: '#1a120c', roughness: 0.9 });
-  const glove = gloves ? std({ color: gloves }) : skin;
+  }));
+  const thighG = cached(`thigh|${shortsCol}`, () => paint(cap(0.1, 0.24, -0.17), shortsCol));
+  const shinG = cached(`shin|${socksCol}|${skinCol}`, () => mergeGeometries([
+    paint(cap(0.075, 0.08, -0.02), skinCol),
+    paint(cap(0.072, 0.3, -0.24), socksCol),
+    paint(new THREE.BoxGeometry(0.11, 0.08, 0.27).translate(0, -0.47, 0.05), '#111'),
+  ]));
+  const upperG = cached(`upper|${base}`, () => paint(cap(0.065, 0.2, -0.13), base));
+  const bandG = cached(`band|${base}`, () => mergeGeometries([paint(cap(0.065, 0.2, -0.13), base), paint(new THREE.CylinderGeometry(0.075, 0.075, 0.07, 8).translate(0, -0.1, 0), '#ffffff')]));
+  const foreG = cached(`fore|${gloves || skinCol}`, () => paint(cap(0.055, 0.22, -0.14), gloves || skinCol));
+  const coreG = cached(`core|${shortsCol}|${skinCol}|${hairCol}`, () => mergeGeometries([
+    paint(new THREE.CylinderGeometry(0.2, 0.2, 0.18, 12), shortsCol),
+    paint(new THREE.CylinderGeometry(0.06, 0.07, 0.1, 8).translate(0, 0.71, 0), skinCol),
+    paint(new THREE.SphereGeometry(0.13, 14, 10).translate(0, 0.87, 0), skinCol),
+    paint(new THREE.SphereGeometry(0.135, 14, 6, 0, TAU, 0, Math.PI * 0.5).rotateX(-0.25).translate(0, 0.9, -0.01), hairCol),
+  ]));
+  const torsoG = geo('torso', () => new THREE.CylinderGeometry(0.21, 0.19, 0.6, 14));
 
-  const mesh = (g, m, parent, x = 0, y = 0, z = 0) => {
-    const o = new THREE.Mesh(g, m); o.position.set(x, y, z); o.castShadow = shadows; parent.add(o); return o;
-  };
+  const add = (g, m, parent, x = 0, y = 0, z = 0) => { const o = new THREE.Mesh(g, m); o.position.set(x, y, z); parent.add(o); return o; };
   const root = new THREE.Group();          // world position + heading
   const body = new THREE.Group();          // lean / dive
   root.add(body);
   const pelvis = new THREE.Group(); pelvis.position.y = 0.95; body.add(pelvis);
-
   const legs = [-1, 1].map((s) => {
     const hip = new THREE.Group(); hip.position.set(0.11 * s, 0, 0); pelvis.add(hip);
-    mesh(geo('thigh', () => new THREE.CapsuleGeometry(0.1, 0.24, 4, 10)), shorts, hip, 0, -0.17, 0);
-    const knee = new THREE.Group(); knee.position.y = -0.43; hip.add(knee);
-    mesh(geo('kneeCap', () => new THREE.CapsuleGeometry(0.075, 0.08, 4, 8)), skin, knee, 0, -0.02, 0);
-    mesh(geo('shin', () => new THREE.CapsuleGeometry(0.072, 0.3, 4, 8)), socks, knee, 0, -0.24, 0);
-    mesh(geo('boot', () => new THREE.BoxGeometry(0.11, 0.08, 0.27)), boots, knee, 0, -0.47, 0.05);
+    add(thighG, vcMat, hip);
+    const knee = add(shinG, vcMat, hip, 0, -0.43, 0);
     return { hip, knee };
   });
-  mesh(geo('waist', () => new THREE.CylinderGeometry(0.2, 0.2, 0.18, 14)), shorts, pelvis, 0, 0, 0);
-  const torso = mesh(geo('torso', () => new THREE.CylinderGeometry(0.21, 0.19, 0.6, 16)), shirt, pelvis, 0, 0.36, 0);
-  torso.scale.z = 0.72;
-  const arms = [-1, 1].map((s) => {
+  add(coreG, vcMat, pelvis);
+  add(torsoG, shirt, pelvis, 0, 0.36, 0).scale.z = 0.72;
+  const arms = [-1, 1].map((s, i) => {
     const sh = new THREE.Group(); sh.position.set(0.28 * s, 0.6, 0); pelvis.add(sh);
-    mesh(geo('upperArm', () => new THREE.CapsuleGeometry(0.065, 0.2, 4, 8)), shirt, sh, 0, -0.13, 0);
-    const el = new THREE.Group(); el.position.y = -0.29; sh.add(el);
-    mesh(geo('foreArm', () => new THREE.CapsuleGeometry(0.055, 0.22, 4, 8)), glove, el, 0, -0.14, 0);
+    add(gold && i === 0 ? bandG : upperG, vcMat, sh);
+    const el = add(foreG, vcMat, sh, 0, -0.29, 0);
     sh.rotation.z = 0.12 * s;
     return { sh, el };
   });
-  if (gold) mesh(geo('band', () => new THREE.CylinderGeometry(0.075, 0.075, 0.07, 10)), std({ color: '#fff', emissive: '#fff', emissiveIntensity: 0.4 }), arms[0].sh, 0, -0.1, 0);
-  mesh(geo('neck', () => new THREE.CylinderGeometry(0.06, 0.07, 0.1, 10)), skin, pelvis, 0, 0.71, 0);
-  mesh(geo('head', () => new THREE.SphereGeometry(0.13, 18, 14)), skin, pelvis, 0, 0.87, 0);
-  const hairM = mesh(geo('hair', () => new THREE.SphereGeometry(0.135, 18, 10, 0, TAU, 0, Math.PI * 0.5)), hair, pelvis, 0, 0.9, -0.01);
-  hairM.rotation.x = -0.25;
   root.scale.setScalar(1.45);
   return { root, body, pelvis, legs, arms, shirt };
 }
@@ -87,13 +97,12 @@ export class Match {
     this.agents = [];
     this.players = [];
     this.time = 0;
-    const shadows = !stadium.mobile;
 
     // our XI (sky blue; the captain in gold; keeper in charcoal)
     squad.forEach((p, i) => {
       const gold = !!p.captain, keeper = p.pos === 'GK';
       const base = gold ? '#f3c75a' : keeper ? '#1d2230' : '#5cc3ff';
-      const f = makeFigure({ base, trim: gold ? '#e3b23f' : keeper ? '#2a3142' : '#4fb2ee', number: p.no, socksCol: base, skinCol: SKINS[i % SKINS.length], gloves: keeper ? '#d4ff3a' : null, gold, shadows });
+      const f = makeFigure({ base, trim: gold ? '#e3b23f' : keeper ? '#2a3142' : '#4fb2ee', number: p.no, socksCol: base, skinCol: SKINS[i % SKINS.length], hairCol: HAIRS[i % HAIRS.length], gloves: keeper ? '#d4ff3a' : null, gold });
       const a = this.addAgent(f, p.at, 'home', i);
       a.data = p;
       this.players.push(a);
@@ -104,13 +113,23 @@ export class Match {
       squad.forEach((p, i) => {
         const keeper = p.pos === 'GK';
         const base = keeper ? '#39ff88' : '#c8102e';
-        const f = makeFigure({ base, trim: keeper ? '#2bd86f' : '#a00d24', number: null, shortsCol: '#15171c', socksCol: keeper ? '#39ff88' : '#c8102e', skinCol: SKINS[(i + 3) % SKINS.length], gloves: keeper ? '#ffffff' : null, shadows });
+        const f = makeFigure({ base, trim: keeper ? '#2bd86f' : '#a00d24', number: null, shortsCol: '#15171c', socksCol: keeper ? '#39ff88' : '#c8102e', skinCol: SKINS[(i + 3) % SKINS.length], gloves: keeper ? '#ffffff' : null });
         const a = this.addAgent(f, [-p.at[0] * 0.92, -p.at[1] * 0.9 + (i % 2 ? 2 : -2)], 'away', i);
         if (keeper) this.awayKeeper = a;
       });
-      const rf = makeFigure({ base: '#101216', trim: '#f2d22e', shortsCol: '#101216', socksCol: '#101216', skinCol: SKINS[1], shadows });
+      const rf = makeFigure({ base: '#101216', trim: '#f2d22e', shortsCol: '#101216', socksCol: '#101216', skinCol: SKINS[1] });
       this.ref = this.addAgent(rf, [-6, 14], 'ref', 0);
     }
+
+    // soft ground shadows: one instanced draw instead of a shadow-map pass
+    this.blobs = new THREE.InstancedMesh(
+      new THREE.CircleGeometry(0.85, 14).rotateX(-Math.PI / 2),
+      new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.34, depthWrite: false }),
+      this.agents.length
+    );
+    this.blobs.frustumCulled = false;
+    stadium.scene.add(this.blobs);
+    this.blobM = new THREE.Matrix4();
 
     this.owner = null;      // agent with the ball at their feet
     this.juggler = null;    // active player doing keepy-uppies
@@ -336,6 +355,7 @@ export class Match {
     const t = this.time;
     const ball = this.ball.position;
 
+    let n = 0;
     for (const a of this.agents) {
       // where do I want to be?
       let goal;
@@ -402,6 +422,7 @@ export class Match {
 
       a.root.position.copy(a.pos);
       a.root.rotation.y = a.heading;
+      this.blobs.setMatrixAt(n++, this.blobM.makeTranslation(a.pos.x, 0.03, a.pos.z));
 
       // selection highlight
       if (a.team === 'home') {
@@ -411,6 +432,8 @@ export class Match {
         a.shirt.emissiveIntensity = a.active * 0.22 + a.hover * 0.25;
       }
     }
+
+    this.blobs.instanceMatrix.needsUpdate = true;
 
     // ball at feet: dribble touches, or keepy-uppies for the active player
     if (!this.flight) {
