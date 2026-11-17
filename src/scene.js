@@ -618,6 +618,7 @@ export class Stadium {
     const count = Math.min(cap, seats.length);
     const mesh = new THREE.InstancedMesh(geo, null, count);
     const phase = new Float32Array(count * 2);
+    const awayPalette = ['#c8102e', '#15171c', '#c8102e', '#ffffff', '#8f0b20'].map((h) => new THREE.Color(h)); // the BUGS FC away end
     const palette = ['#1b2330', '#2a3444', '#6cabdd', '#101521', '#39465a', '#d9e6f2', '#6cabdd', '#1c3a6b', '#0c1018', '#4a5668'].map((h) => new THREE.Color(h));
     const skin = ['#f1c9a5', '#c68d62', '#8d5a3c', '#e0ac85'].map((h) => new THREE.Color(h));
     const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), yAxis = new THREE.Vector3(0, 1, 0);
@@ -638,7 +639,8 @@ export class Stadium {
         col.setRGB(tifo[j] / 255, tifo[j + 1] / 255, tifo[j + 2] / 255, THREE.SRGBColorSpace);
         phase.set([u, -1], k * 2); // negative = holding a card
       } else {
-        col.copy(palette[(Math.random() * palette.length) | 0]).multiplyScalar(0.7 + Math.random() * 0.3);
+        const awayEnd = u > 0.865 && u < 0.915;
+        col.copy(awayEnd ? awayPalette[(Math.random() * awayPalette.length) | 0] : palette[(Math.random() * palette.length) | 0]).multiplyScalar(0.7 + Math.random() * 0.3);
         phase.set([u, Math.random()], k * 2);
       }
       mesh.setColorAt(k, col);
