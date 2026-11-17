@@ -126,6 +126,10 @@ Open Graph and Twitter cards use a 1200×630 render of the stadium (`public/og.j
 
 A browser with WebGL 2: current Chrome, Edge, Firefox or Safari on desktop or phone. Node 20 or newer to build (`.nvmrc` pins 22).
 
+## Privacy
+
+Vercel Web Analytics counts visits without cookies. Scout-mode progress and the time-of-day and weather choices stay in the visitor's own browser storage. The contact form opens the visitor's mail app; nothing is sent to a server. The résumé PDF includes contact details.
+
 ## Code map
 | File | Role |
 |---|---|
