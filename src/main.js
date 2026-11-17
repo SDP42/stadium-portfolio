@@ -50,13 +50,22 @@ function fillContent() {
   $('#interestList').innerHTML = interests.map((x) => `<span>${x}</span>`).join('');
 
   $('#benchList').innerHTML = bench.map((b, i) => {
-    const tag = b.repo ? 'a' : 'div';
-    const attrs = b.repo ? `href="${b.repo}" target="_blank" rel="noopener"` : '';
-    return `<${tag} class="sub" ${attrs}>
+    const doc = projectDoc(b.title);
+    const go = b.repo
+      ? `<a class="sub-go mono" href="${b.repo}" target="_blank" rel="noopener">${b.linkLabel || 'Repo'} ↗</a>`
+      : '<span class="sub-go mono">Private</span>';
+    return `<article class="sub">
       <span class="sub-no mono">${String(12 + i).padStart(2, '0')}</span>
-      <div><h4>${b.title}</h4><p>${b.tagline}</p><div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div>${projectDoc(b.title) ? `<span class="sub-docs"><a class="sub-doc mono" href="${projectDoc(b.title)}" target="_blank" rel="noopener" data-doc>Read doc ↗</a><a class="sub-doc mono" href="${projectDoc(b.title)}" download data-doc>Download PDF ↓</a></span>` : ''}</div>
-      <span class="sub-go mono">${b.repo ? (b.linkLabel || 'Repo') + ' ↗' : 'Private'}</span>
-    </${tag}>`;
+      <div class="sub-body">
+        <h4>${b.title}</h4>
+        <p>${b.tagline}</p>
+        <div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div>
+        <div class="sub-links">
+          ${doc ? `<a class="sub-doc mono" href="${doc}" target="_blank" rel="noopener" data-doc>Read doc ↗</a><a class="sub-doc mono" href="${doc}" download data-doc>Download PDF ↓</a>` : ''}
+          ${go}
+        </div>
+      </div>
+    </article>`;
   }).join('');
 
   $('#mailLink').href = `mailto:${profile.email}`;
