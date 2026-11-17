@@ -79,6 +79,11 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 | HackNova L5614 · [repo](https://github.com/SDP42/HackNova-L5614) | A logistics platform built against the clock at the HackNova L5614 hackathon event. | [Word](public/case-studies/hacknova-case-study.docx) |
 
 
+## Case studies
+
+Every project has a Word dossier in [`public/case-studies`](public/case-studies), downloadable from its card on the site. Each one is set in Times New Roman 12 pt, justified, and covers the overview, problem, solution, key features, a layered architecture diagram, the processing pipeline, the technology stack, data and models, engineering and testing, results, and charts of the repository's language mix and commit activity drawn from the GitHub API.
+
+
 ## Code map
 | File | Role |
 |---|---|
