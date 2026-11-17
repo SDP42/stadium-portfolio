@@ -111,7 +111,6 @@ export class Stadium {
     this.buildScreen();
     this.buildConfetti();
     this.buildFireworks();
-    this.buildRain();
     this.buildPost();
 
     // Camera rig state: base pose + transient effects
@@ -1414,6 +1413,7 @@ export class Stadium {
   // Rain: falling streaks around the camera, overcast sky, wet glossy pitch.
   setRain(on, duration = 2) {
     this.raining = on;
+    if (!this.rain) { if (!on) return; this.buildRain(); } // built on first use: no cost for visitors who never turn it on
     this.rain.visible = true;
     gsap.to(this.uniforms.uRain, { value: on ? 1 : 0, duration, onComplete: () => { if (!on) this.rain.visible = false; } });
     gsap.to(this.stars.material, { opacity: on || this.isDay ? 0 : 0.85, duration });
