@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1 · November 2026
+- Project documents rewritten in detail from each repository's README, internal docs and code: a contents page and up to 22 sections, from background and objectives to algorithms, API, setup, challenges, security and future work. Most grew from 5–7 pages to 9–18.
+- Bench cards on phones fixed: the document and repository links now sit inside each card instead of spilling outside it.
+
 ## 1.6.0 · November 2026
 - Project documents are now PDFs: **Read doc** opens one in a new tab and **Download PDF** saves it, on every card and bench entry.
 - Each document gains an Approach section that explains, step by step, how the project was tackled.
