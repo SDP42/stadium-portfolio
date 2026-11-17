@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { Stadium } from './scene.js';
 import { StadiumAudio } from './audio.js';
 import { Scout, BADGES, LEVELS, toast } from './game.js';
-import { profile, squad, bench, skills, education, honours, roles, interests } from './data.js';
+import { profile, squad, bench, skills, education, honours, roles, interests, caseStudy } from './data.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -109,6 +109,7 @@ function renderCard(i) {
       <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
       <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
       ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
+      ${caseStudy(p.title) ? `<a class="btn btn-ghost" href="${caseStudy(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
     </div>
     <div class="card-nav">
       ${prev ? `<a href="#/squad/${prev.no}" data-link class="pass prev"><span class="mono">← Pass back</span><b>#${prev.no} ${prev.title}</b></a>` : '<span></span>'}
