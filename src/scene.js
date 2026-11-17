@@ -490,6 +490,11 @@ export class Stadium {
           float flood = (.07 + uLights * 1.05) * (1.05 - .14 * smoothstep(30., 70., length(vW.xz * vec2(.8, 1.2))));
           float dayL = mix(.5, 1.25, sun);
           vec3 L = vec3(mix(flood, dayL, uDay)) * mix(vec3(1.), vec3(1.2, .9, .68), uDusk * sun);
+          // mown stripes read light or dark depending on which way you look along them
+          float stripe = mod(floor(vUv.x * 14.), 2.) * 2. - 1.;
+          c *= 1. + .07 * stripe * sign(uCam.x - vW.x);
+          // fine grass grain so close-ups never look flat
+          c *= .95 + .1 * fract(sin(dot(floor(vW.xz * 7.), vec2(12.9898, 78.233))) * 43758.5);
           c *= L * (1. - uRain * .15);
           if (uRain > .01) {
             float f = pow(1. - abs(normalize(uCam - vW).y), 3.);
