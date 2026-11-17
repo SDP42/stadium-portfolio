@@ -54,7 +54,7 @@ function fillContent() {
     const attrs = b.repo ? `href="${b.repo}" target="_blank" rel="noopener"` : '';
     return `<${tag} class="sub" ${attrs}>
       <span class="sub-no mono">${String(12 + i).padStart(2, '0')}</span>
-      <div><h4>${b.title}</h4><p>${b.tagline}</p><div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div></div>
+      <div><h4>${b.title}</h4><p>${b.tagline}</p><div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div>${caseStudy(b.title) ? `<a class="sub-doc mono" href="${caseStudy(b.title)}" download data-doc>Case study (Word) ↓</a>` : ''}</div>
       <span class="sub-go mono">${b.repo ? (b.linkLabel || 'Repo') + ' ↗' : 'Private'}</span>
     </${tag}>`;
   }).join('');

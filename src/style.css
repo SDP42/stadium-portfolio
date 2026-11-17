@@ -569,3 +569,5 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 .btn:focus-visible, .nav a:focus-visible, .hotspot:focus-visible .hs-label { outline: 2px solid var(--lime); outline-offset: 3px; }
 .copy-mail { width: 100%; text-align: left; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } .captain-pick::after, .live-dot, .hs-dot i { animation: none; } }
+.sub-doc { display: inline-block; margin-top: 8px; font-size: 11px; color: var(--lime); letter-spacing: .06em; }
+.sub-doc:hover { color: #fff; }
