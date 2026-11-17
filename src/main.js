@@ -614,7 +614,8 @@ async function start() {
   if (stadium) {
     // redraw canvases that used web fonts, then warm up shaders
     stadium.drawScreen('board');
-    stadium.renderer.compile(stadium.scene, stadium.camera);
+    // compile shaders off the main thread where the browser supports it, so the loader keeps animating
+    await stadium.renderer.compileAsync(stadium.scene, stadium.camera);
   }
   await tw;
   await gsap.to(pct, { v: 100, duration: 0.3, onUpdate: () => { pctEl.textContent = String(Math.round(pct.v)).padStart(2, '0'); bar.style.transform = `scaleX(${pct.v / 100})`; } });
