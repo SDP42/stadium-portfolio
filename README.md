@@ -110,6 +110,18 @@ The site is static. On Vercel, import the repo and keep the detected Vite settin
 Open Graph and Twitter cards use a 1200×630 render of the stadium (`public/og.jpg`). The page carries schema.org `Person` data, a canonical URL, a web manifest, `robots.txt` and a sitemap, and each view sets its own document title. Visitors without JavaScript get a plain fallback with links to GitHub, LinkedIn and the résumé.
 
 
+## Tech stack
+
+| Area | Tools |
+|---|---|
+| 3D | three.js (r170), custom GLSL shaders, instancing, EffectComposer with bloom |
+| Animation | GSAP |
+| Build | Vite 5, ES modules, separate vendor chunks |
+| Audio | Web Audio API (synthesised, no files) |
+| Analytics | Vercel Web Analytics |
+| Hosting and CI | Vercel, GitHub Actions |
+| Case studies | docx (Word), matplotlib charts |
+
 ## Code map
 | File | Role |
 |---|---|
