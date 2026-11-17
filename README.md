@@ -47,6 +47,23 @@ XP and levels (Academy → Reserves → First team → Captain → Club legend),
 ## Editing content
 The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Swayam_Panchal_Resume.pdf); replace that file to update it. Everything else lives in [`src/data.js`](src/data.js): `profile`, the starting XI (`squad`, with `captain: true` on the featured project), `bench`, `education`, `honours`, `roles`, `interests` and `skills`. Add a phone number and set `showPhone: true` to list it on the contact page.
 
+## Starting XI
+
+| # | Pos | Project | In one line | Commits | Case study |
+|---|---|---|---|---|---|
+| 1 | GK | [Elevate 1.0](https://github.com/SDP42/Elevate1.0) · [live](https://elevate1-0.vercel.app) | The official platform that ran a 24-hour national hackathon. | 145 | [Word](public/case-studies/elevate-case-study.docx) |
+| 2 | RB | [NAMASTE × ICD-11](https://github.com/SDP42/SIH_PS_10) | A FHIR R4 service linking traditional and modern medical codes. | 40 | [Word](public/case-studies/namaste-icd11-case-study.docx) |
+| 3 | LB | [East Coast Freight Desk](https://github.com/SDP42/east-coast-freight-desk) · [live](https://east-coast-freight-desk.vercel.app) | Freight forecasts and chartering calls for SAIL's coal imports. | 34 | [Word](public/case-studies/east-coast-freight-desk-case-study.docx) |
+| 4 | CB | [OHMEN](https://github.com/SDP42/ohmen) | See the cascade before it happens, across critical systems. | 62 | [Word](public/case-studies/ohmen-case-study.docx) |
+| 5 | CB | [DataPilot](https://github.com/SDP42/datapilot) | An autonomous data scientist that explains every single step. | 71 | [Word](public/case-studies/datapilot-case-study.docx) |
+| 6 | CDM | [BrainMapAI](https://github.com/SDP42/BrainMapAI) | Turns PDFs and research papers into navigable knowledge graphs. | 58 | [Word](public/case-studies/brainmapai-case-study.docx) |
+| 7 | RW | [MERIDIAN](https://github.com/SDP42/agentx) | Speak the market, trust every trade: an agentic paper desk. | 116 | [Word](public/case-studies/meridian-case-study.docx) |
+| 8 | CM | [Learnova V2](https://github.com/SDP42/LearnovaV2) | Rebuilds lecture PDFs into illustrated, interactive slide decks. | 185 | [Word](public/case-studies/learnova-v2-case-study.docx) |
+| 9 | ST | [MIRAGE](https://github.com/SDP42/isacaps2) | Seeing is no longer believing. Is it really safe to act on this? | 201 | [Word](public/case-studies/mirage-case-study.docx) |
+| 10 | CAM | [OpsDesk](https://github.com/SDP42/OpsDesk) | Every ticket is a flight: a travel-ops desk run like a tower. | 472 | [Word](public/case-studies/opsdesk-case-study.docx) |
+| 11 | LW | [WorldCupAI 2026](https://github.com/SDP42/WorldCupAI-2026) | Predicts the complete FIFA World Cup 2026 knockout bracket. | 8 | [Word](public/case-studies/worldcupai-2026-case-study.docx) |
+
+
 ## Code map
 | File | Role |
 |---|---|
