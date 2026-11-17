@@ -106,6 +106,7 @@ export class Stadium {
     this.buildShell();
     this.buildLights();
     this.buildFixtures();
+    this.buildStewards();
     this.buildBall();
     this.buildTrophy();
     this.buildScreen();
@@ -1043,6 +1044,32 @@ export class Stadium {
     pressFrame.position.copy(press.position);
     this.scene.add(pressFrame);
     this.anchors.contact = press.position.clone();
+  }
+
+  // Small instanced people around the pitch: one draw call per group.
+  personGeo(body, vest, skin = '#d9a77f') {
+    const paint = (g, hex) => { const c = new THREE.Color(hex), a = new Float32Array(g.attributes.position.count * 3); for (let i = 0; i < a.length; i += 3) a.set([c.r, c.g, c.b], i); g.setAttribute('color', new THREE.BufferAttribute(a, 3)); return g; };
+    return mergeGeometries([
+      paint(new THREE.CylinderGeometry(0.13, 0.15, 0.85, 8).translate(0, 0.43, 0), body),
+      paint(new THREE.CylinderGeometry(0.24, 0.22, 0.62, 10).translate(0, 1.15, 0), vest),
+      paint(new THREE.SphereGeometry(0.13, 10, 8).translate(0, 1.6, 0), skin),
+    ]);
+  }
+
+  placePeople(geo, spots, scale = 1.45) {
+    const mesh = new THREE.InstancedMesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true }), spots.length);
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion();
+    spots.forEach(([x, z, yaw, sy = 1], i) => mesh.setMatrixAt(i, m4.compose(new THREE.Vector3(x, 0, z), q.setFromAxisAngle(Y_AXIS, yaw), new THREE.Vector3(scale, scale * sy, scale))));
+    this.scene.add(mesh);
+    return mesh;
+  }
+
+  // Stewards in hi-vis facing the crowd, all round the pitch
+  buildStewards() {
+    const spots = [];
+    for (let x = -54; x <= 54; x += 9) for (const z of [-41.5, 41.5]) { if (z > 0 && (Math.abs(x) < 7 || Math.abs(Math.abs(x) - 12) < 6)) continue; spots.push([x + Math.random() * 2, z, z > 0 ? 0 : Math.PI]); }
+    for (let z = -32; z <= 32; z += 9) for (const x of [-59.5, 59.5]) spots.push([x, z + Math.random() * 2, x > 0 ? Math.PI / 2 : -Math.PI / 2]);
+    this.placePeople(this.personGeo('#1a1d24', '#ff7a1a'), spots);
   }
 
   buildBall() {
