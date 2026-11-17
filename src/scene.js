@@ -108,6 +108,7 @@ export class Stadium {
     this.buildFixtures();
     this.buildStewards();
     this.buildPhotographers();
+    this.buildSubstitutes();
     this.buildBall();
     this.buildTrophy();
     this.buildScreen();
@@ -1079,6 +1080,15 @@ export class Stadium {
     for (const side of [-1, 1]) for (const z of [-14, -11, -8, 8, 11, 14]) spots.push([side * 55.8, z + Math.random(), side > 0 ? -Math.PI / 2 : Math.PI / 2, 0.62]);
     const geo = mergeGeometries([this.personGeo('#20232b', '#2c3038'), new THREE.BoxGeometry(0.16, 0.16, 0.5).translate(0, 1.15, 0.35).setAttribute('color', new THREE.BufferAttribute(new Float32Array(24 * 3).fill(0.05), 3))]);
     this.placePeople(geo, spots);
+  }
+
+  // Substitutes sitting in both dugouts: home in sky-blue, away in red
+  buildSubstitutes() {
+    for (const [dx, kit] of [[12, '#5cc3ff'], [-12, '#c8102e']]) {
+      const spots = [];
+      for (let i = 0; i < 6; i++) spots.push([dx - 3.6 + i * 1.45, 43.9, Math.PI, 0.72]);
+      this.placePeople(this.personGeo(kit, kit, ['#d9a77f', '#8a5a3c', '#e9bf98'][dx > 0 ? 0 : 1]), spots, 1.3);
+    }
   }
 
   buildBall() {
