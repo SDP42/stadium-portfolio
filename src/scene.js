@@ -107,6 +107,7 @@ export class Stadium {
     this.buildLights();
     this.buildFixtures();
     this.buildStewards();
+    this.buildPhotographers();
     this.buildBall();
     this.buildTrophy();
     this.buildScreen();
@@ -1070,6 +1071,14 @@ export class Stadium {
     for (let x = -54; x <= 54; x += 9) for (const z of [-41.5, 41.5]) { if (z > 0 && (Math.abs(x) < 7 || Math.abs(Math.abs(x) - 12) < 6)) continue; spots.push([x + Math.random() * 2, z, z > 0 ? 0 : Math.PI]); }
     for (let z = -32; z <= 32; z += 9) for (const x of [-59.5, 59.5]) spots.push([x, z + Math.random() * 2, x > 0 ? Math.PI / 2 : -Math.PI / 2]);
     this.placePeople(this.personGeo('#1a1d24', '#ff7a1a'), spots);
+  }
+
+  // Photographers crouched behind each goal line, lenses on the pitch
+  buildPhotographers() {
+    const spots = [];
+    for (const side of [-1, 1]) for (const z of [-14, -11, -8, 8, 11, 14]) spots.push([side * 55.8, z + Math.random(), side > 0 ? -Math.PI / 2 : Math.PI / 2, 0.62]);
+    const geo = mergeGeometries([this.personGeo('#20232b', '#2c3038'), new THREE.BoxGeometry(0.16, 0.16, 0.5).translate(0, 1.15, 0.35).setAttribute('color', new THREE.BufferAttribute(new Float32Array(24 * 3).fill(0.05), 3))]);
+    this.placePeople(geo, spots);
   }
 
   buildBall() {
