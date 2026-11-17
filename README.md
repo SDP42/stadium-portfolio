@@ -122,6 +122,10 @@ Open Graph and Twitter cards use a 1200×630 render of the stadium (`public/og.j
 | Hosting and CI | Vercel, GitHub Actions |
 | Case studies | docx (Word), matplotlib charts |
 
+## Requirements
+
+A browser with WebGL 2: current Chrome, Edge, Firefox or Safari on desktop or phone. Node 20 or newer to build (`.nvmrc` pins 22).
+
 ## Code map
 | File | Role |
 |---|---|
