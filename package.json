@@ -1,7 +1,12 @@
 {
   "name": "swayam-portfolio",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.5.0",
+  "description": "SDP42 FC: Swayam Panchal's walk-in 3D football-stadium portfolio (three.js)",
+  "author": "Swayam Devendra Panchal",
+  "homepage": "https://stadium-portfolio.vercel.app",
+  "repository": { "type": "git", "url": "https://github.com/SDP42/stadium-portfolio" },
+  "engines": { "node": ">=20" },
   "type": "module",
   "scripts": {
     "dev": "vite",
