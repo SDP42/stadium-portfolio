@@ -486,7 +486,8 @@ export class Stadium {
           vec2 hit = abs(vW.xz + uSun.xz / max(uSun.y, .05) * 49.) / vec2(${ROOF_OPEN.A}., ${ROOF_OPEN.B}.);
           hit *= hit;
           float sun = smoothstep(1.12, .9, sqrt(sqrt(dot(hit, hit))));
-          float flood = .07 + uLights * 1.05;
+          // floodlights are strongest mid-pitch and fall off toward the corners
+          float flood = (.07 + uLights * 1.05) * (1.05 - .14 * smoothstep(30., 70., length(vW.xz * vec2(.8, 1.2))));
           float dayL = mix(.5, 1.25, sun);
           vec3 L = vec3(mix(flood, dayL, uDay)) * mix(vec3(1.), vec3(1.2, .9, .68), uDusk * sun);
           c *= L * (1. - uRain * .15);
