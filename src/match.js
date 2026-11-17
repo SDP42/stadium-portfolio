@@ -105,6 +105,7 @@ export class Match {
       const f = makeFigure({ base, trim: gold ? '#e3b23f' : keeper ? '#2a3142' : '#4fb2ee', number: p.no, socksCol: base, skinCol: SKINS[i % SKINS.length], hairCol: HAIRS[i % HAIRS.length], gloves: keeper ? '#d4ff3a' : null, gold });
       const a = this.addAgent(f, p.at, 'home', i);
       a.data = p;
+      a.keeper = p.pos === 'GK';
       this.players.push(a);
     });
 
@@ -115,7 +116,7 @@ export class Match {
         const base = keeper ? '#39ff88' : '#c8102e';
         const f = makeFigure({ base, trim: keeper ? '#2bd86f' : '#a00d24', number: null, shortsCol: '#15171c', socksCol: keeper ? '#39ff88' : '#c8102e', skinCol: SKINS[(i + 3) % SKINS.length], gloves: keeper ? '#ffffff' : null });
         const a = this.addAgent(f, [-p.at[0] * 0.92, -p.at[1] * 0.9 + (i % 2 ? 2 : -2)], 'away', i);
-        if (keeper) this.awayKeeper = a;
+        if (keeper) { this.awayKeeper = a; a.keeper = true; }
       });
       const rf = makeFigure({ base: '#101216', trim: '#f2d22e', shortsCol: '#101216', socksCol: '#101216', skinCol: SKINS[1] });
       this.ref = this.addAgent(rf, [-6, 14], 'ref', 0);
@@ -369,6 +370,7 @@ export class Match {
         const wander = a.activeTarget ? 0.25 : 2.2;
         goal.set(a.home.x + Math.sin(t * 0.23 + a.seed) * wander, 0, a.home.z + Math.cos(t * 0.19 + a.seed * 1.7) * wander);
         if (a.team === 'away') { goal.x += (ball.x - a.home.x) * 0.14; goal.z += (ball.z - a.home.z) * 0.14; } // press the ball
+        if (a.keeper) { goal.x = a.home.x; goal.z = THREE.MathUtils.clamp(ball.z * 0.15, -2.8, 2.8); } // keepers shadow the ball along their line
       }
       const to = this._to.copy(goal).sub(a.pos).setY(0);
       const dist = to.length();
