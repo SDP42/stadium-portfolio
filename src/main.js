@@ -179,7 +179,7 @@ const VIEWS = {
   stadium: { shot: () => ({ pos: [56, 38, 30], target: [-12, 3, -6] }), fov: 56, orbit: 0.022, shell: ['#62c8ff', '#ffffff', 1], hot: true, parent: 'home', crumb: 'Inside the arena' },
   squad:   { shot: () => frame([0, 118, 52], [0, 0, 0], 'left', 0.2), fov: 44, shell: ['#62c8ff', '#ffffff', 0.6], parent: 'stadium', crumb: 'The pitch · Starting XI' },
   player:  { fov: 46, shell: ['#62c8ff', '#d4ff3a', 0.5], parent: 'squad' },
-  goal:    { shot: () => ({ pos: [24, 4.5, -11], target: [52, 1.6, 1] }), fov: 40, shell: ['#d4ff3a', '#62c8ff', 1], parent: 'stadium', crumb: 'Final third' },
+  goal:    { shot: () => ({ pos: [40, 6, -22], target: [52.5, 1.5, 1] }), fov: 40, shell: ['#d4ff3a', '#62c8ff', 1], parent: 'stadium', crumb: 'Final third' },
   skills:  { shot: () => frame([-26, 20, 6], [-80, 33, 0], 'right', 0.2), fov: 44, shell: ['#62c8ff', '#b8ecff', 0.6], parent: 'stadium', crumb: 'The big screen · Skills' },
   about:   { shot: () => frame([5, 4.5, 26], [0, 2.6, 44.5], 'left', 0.18), fov: 46, shell: ['#b8ecff', '#ffffff', 0.3], parent: 'stadium', crumb: "Players' tunnel · About" },
   honours: { shot: () => frame([8, 3.2, 8], [0, 2.4, 0], 'left', 0.2), fov: 44, shell: ['#f3c75a', '#62c8ff', 1], parent: 'stadium', crumb: 'Centre spot · Honours' },
