@@ -1,0 +1,9 @@
+{
+  "name": "Swayam Panchal · SDP42 FC",
+  "short_name": "SDP42 FC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05080d",
+  "theme_color": "#05080d",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
