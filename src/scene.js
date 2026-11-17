@@ -1551,7 +1551,7 @@ export class Stadium {
 
   // ---------------------------------------------------------------- util
   project(v) {
-    const p = v.clone().project(this.camera);
+    const p = (this._proj ||= new THREE.Vector3()).copy(v).project(this.camera);
     return { x: (p.x * 0.5 + 0.5) * window.innerWidth, y: (-p.y * 0.5 + 0.5) * window.innerHeight, behind: p.z > 1 };
   }
 
