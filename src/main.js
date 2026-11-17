@@ -104,7 +104,7 @@ function renderCard(i) {
     ${p.deep ? `<div class="card-deep">${p.deep.map(([h, t], k) => `<details ${k === 0 ? 'open' : ''}><summary><span class="mono">0${k + 1}</span>${h}</summary><p>${t}</p></details>`).join('')}</div>` : ''}
     <ul class="card-points">${p.points.map((x) => `<li>${x}</li>`).join('')}</ul>
     <div class="chips">${p.stack.map((x) => `<span>${x}</span>`).join('')}</div>
-    <div class="card-meter mono"><span>Commits</span><i style="--w:${Math.max(0.04, p.commits / maxC)}"></i><b>${p.commits}</b></div>
+    <div class="card-meter mono"><span>Commits</span><i style="--w:${Math.max(0.06, Math.log1p(p.commits) / Math.log1p(maxC))}"></i><b>${p.commits}</b></div>
     <div class="card-links">
       <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
       <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
