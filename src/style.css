@@ -565,3 +565,5 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 /* ---------------- accessibility */
 .skip-link { position: fixed; left: 16px; top: -60px; z-index: 300; padding: 10px 16px; border-radius: 10px; background: var(--lime); color: var(--bg); font: 700 14px var(--display); transition: top .2s; }
 .skip-link:focus { top: 16px; }
+:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
+.btn:focus-visible, .nav a:focus-visible, .hotspot:focus-visible .hs-label { outline: 2px solid var(--lime); outline-offset: 3px; }
