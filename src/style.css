@@ -571,3 +571,5 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } .captain-pick::after, .live-dot, .hs-dot i { animation: none; } }
 .sub-doc { display: inline-block; margin-top: 8px; font-size: 11px; color: var(--lime); letter-spacing: .06em; }
 .sub-doc:hover { color: #fff; }
+.card-links { margin: 4px 0 14px; }
+.card-links .btn { padding: 10px 16px; font-size: 13px; }

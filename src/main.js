@@ -98,6 +98,12 @@ function renderCard(i) {
       </div>
     </div>
     <p class="card-tag">${p.tagline}</p>
+    <div class="card-links">
+      <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
+      <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
+      ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
+      ${caseStudy(p.title) ? `<a class="btn btn-ghost" href="${caseStudy(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
+    </div>
     ${p.subtitle ? `<p class="card-sub mono">${p.subtitle}</p>` : ''}
     ${p.numbers ? `<div class="card-numbers">${p.numbers.map(([v, l]) => `<div><b>${v}</b><span class="mono">${l}</span></div>`).join('')}</div>` : ''}
     <p class="card-about">${p.about}</p>
@@ -105,12 +111,6 @@ function renderCard(i) {
     <ul class="card-points">${p.points.map((x) => `<li>${x}</li>`).join('')}</ul>
     <div class="chips">${p.stack.map((x) => `<span>${x}</span>`).join('')}</div>
     <div class="card-meter mono"><span>Commits</span><i style="--w:${Math.max(0.06, Math.log1p(p.commits) / Math.log1p(maxC))}"></i><b>${p.commits}</b></div>
-    <div class="card-links">
-      <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
-      <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
-      ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
-      ${caseStudy(p.title) ? `<a class="btn btn-ghost" href="${caseStudy(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
-    </div>
     <div class="card-nav">
       ${prev ? `<a href="#/squad/${prev.no}" data-link class="pass prev"><span class="mono">← Pass back</span><b>#${prev.no} ${prev.title}</b></a>` : '<span></span>'}
       ${next
