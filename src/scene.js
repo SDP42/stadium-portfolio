@@ -1335,6 +1335,9 @@ export class Stadium {
     this.hitTargets = this.players.map((p) => p.hit);
   }
 
+  // Number tags are for the overview; in close cinematic shots they would fill the lens
+  setMarkers(on) { this.markersOn = on; }
+
   setActivePlayer(i) { this.activePlayer = i; this.match.setActive(i); }
   setHover(i) { this.hoverPlayer = i; this.match.hover = i >= 0 ? this.players[i] : null; }
 
@@ -1688,7 +1691,7 @@ export class Stadium {
       const s = 1 + p.hover * 0.15 + Math.sin(t * 3 + i) * 0.04 * (1 + p.active);
       p.ring.scale.setScalar(s + p.active * 0.35);
       p.ring.material.opacity = 0.3 + p.active * 0.5 + p.hover * 0.3;
-      p.sprite.material.opacity = (this.match.mode === 'penalty' ? 0 : 1) * (1 - p.active) * (0.6 + p.hover * 0.4);
+      p.sprite.material.opacity = (this.match.mode === 'penalty' || this.markersOn === false ? 0 : 1) * (1 - p.active) * (0.6 + p.hover * 0.4);
       p.ring.visible = this.match.mode !== 'penalty';
     });
 

@@ -287,6 +287,7 @@ async function go(route) {
   if (route.view !== prev.view || route.i !== prev.i) audio.whoosh(route.view === 'player' && prev.view === 'player' ? 1.1 : 1.8);
   if (route.view === 'player' && prev.view !== 'player') audio.whistle();
   if (route.view === 'stadium' && !firstEntry) { firstEntry = true; setTimeout(() => stadium.launchFireworks(9), 1400); }
+  stadium.setMarkers(!['goal', 'penalty'].includes(route.view));
   stadium.showTrophy(route.view === 'honours');
   stadium.setActivePlayer(route.view === 'player' ? route.i : -1);
   const isCaptain = route.view === 'player' && squad[route.i].captain;
