@@ -99,6 +99,11 @@ Every project has a Word dossier in [`public/case-studies`](public/case-studies)
 The site is static. On Vercel, import the repo and keep the detected Vite settings (`npm run build`, output `dist`). `vercel.json` adds long-term caching for hashed assets and basic security headers. Vercel Web Analytics is injected in `src/main.js`; switch it on under the project's **Analytics** tab. Run `npm run check` to validate the project data before a build; CI runs it on every push.
 
 
+## Sharing and SEO
+
+Open Graph and Twitter cards use a 1200×630 render of the stadium (`public/og.jpg`). The page carries schema.org `Person` data, a canonical URL, a web manifest, `robots.txt` and a sitemap, and each view sets its own document title. Visitors without JavaScript get a plain fallback with links to GitHub, LinkedIn and the résumé.
+
+
 ## Code map
 | File | Role |
 |---|---|
