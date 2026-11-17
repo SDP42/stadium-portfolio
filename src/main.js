@@ -500,7 +500,11 @@ window.addEventListener('wheel', (e) => {
 
 window.addEventListener('keydown', (e) => {
   if (e.target.closest('input, textarea')) return;
-  if (e.key === 'Escape') { if (cabinet.classList.contains('open')) openCab(false); else zoomOut(); }
+  if (e.key === 'Escape') {
+    if (document.body.classList.contains('menu-open')) { document.body.classList.remove('menu-open'); $('.menu-btn').setAttribute('aria-expanded', 'false'); }
+    else if (cabinet.classList.contains('open')) openCab(false);
+    else zoomOut();
+  }
   if (e.key === ' ' && current.view === 'penalty') { e.preventDefault(); shootPenalty(); }
   if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') { if (storyStep(1)) e.preventDefault(); }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { if (storyStep(-1)) e.preventDefault(); }
