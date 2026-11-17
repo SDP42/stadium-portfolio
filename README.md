@@ -64,6 +64,21 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 | 11 | LW | [WorldCupAI 2026](https://github.com/SDP42/WorldCupAI-2026) | Predicts the complete FIFA World Cup 2026 knockout bracket. | 8 | [Word](public/case-studies/worldcupai-2026-case-study.docx) |
 
 
+## On the bench
+
+| Project | In one line | Case study |
+|---|---|---|
+| Stratify · [live](https://dombivli-hackathon-s6vb.vercel.app) | AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester. | [Word](public/case-studies/stratify-case-study.docx) |
+| Medical AI · Chest X-ray | YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM. | [Word](public/case-studies/medical-ai-case-study.docx) |
+| Parallel · [repo](https://github.com/SDP42/parallel) | Attention digital twin that shows both futures of a notification before you tap. | [Word](public/case-studies/parallel-case-study.docx) |
+| Smart Resort 360 · [repo](https://github.com/SDP42/guestexperience) | Guest portal with a live 3D twin of a 130-suite resort and a trilingual concierge. | [Word](public/case-studies/smart-resort-360-case-study.docx) |
+| DriftWard · [repo](https://github.com/SDP42/driftward) | Behavioural identity layer that contains hijacked AI agents with still-valid tokens. | [Word](public/case-studies/driftward-case-study.docx) |
+| CityPulse AI · [repo](https://github.com/SDP42/citypulse-ai) | Local-first civic evidence workbench: every number traces back to its source rows. | [Word](public/case-studies/citypulse-ai-case-study.docx) |
+| Learnova IPD · [repo](https://github.com/SDP42/LearnovaIPD) | The original engine behind Learnova, turning text-heavy decks into visual slides. | [Word](public/case-studies/learnova-ipd-case-study.docx) |
+| Football Analytics · [repo](https://github.com/SDP42/Football-Analytics) | Tactical football analytics platform, currently in research and architecture phase. | [Word](public/case-studies/football-analytics-case-study.docx) |
+| HackNova L5614 · [repo](https://github.com/SDP42/HackNova-L5614) | A logistics platform built against the clock at the HackNova L5614 hackathon event. | [Word](public/case-studies/hacknova-case-study.docx) |
+
+
 ## Code map
 | File | Role |
 |---|---|
