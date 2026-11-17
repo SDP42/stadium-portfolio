@@ -561,3 +561,7 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 .tc-sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
 .timectl + .sound { margin-left: 0; }
 @media (max-width: 1280px) { .timectl button span { display: none; } .timectl button { padding: 0 9px; } }
+
+/* ---------------- accessibility */
+.skip-link { position: fixed; left: 16px; top: -60px; z-index: 300; padding: 10px 16px; border-radius: 10px; background: var(--lime); color: var(--bg); font: 700 14px var(--display); transition: top .2s; }
+.skip-link:focus { top: 16px; }
