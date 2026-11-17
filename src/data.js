@@ -63,6 +63,25 @@ const CASE_STUDIES = {
 
 // The starting XI, in a 4-3-3. Pitch runs along x (-52.5 → 52.5), attacking +x.
 // `order` is the tour order: build-up play from the keeper to the striker.
+/**
+ * @typedef {object} Player A project in the Starting XI
+ * @property {number} no Shirt number (unique)
+ * @property {string} pos Short position, e.g. 'ST'
+ * @property {string} posName Full position name
+ * @property {[number, number]} at Home position on the pitch (x, z) in metres
+ * @property {string} title Project name
+ * @property {string} repo GitHub URL
+ * @property {string} [live] Live demo URL
+ * @property {number} commits Commit count on GitHub
+ * @property {string} event Where it was built
+ * @property {string} tagline One line, 55-68 characters
+ * @property {string} about Description, 180-200 characters
+ * @property {string[]} points Three highlights, 52-70 characters each
+ * @property {string[]} stack Technology tags
+ * @property {boolean} [captain] The featured project
+ */
+
+/** @type {Player[]} */
 export const squad = [
   {
     no: 1, pos: 'GK', posName: 'Goalkeeper', at: [-46, 0],
