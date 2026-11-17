@@ -1596,7 +1596,7 @@ export class Stadium {
     if (r.shake > 0) {
       r.shake = Math.max(0, r.shake - dt * 1.4);
       const k = r.shake * r.shake;
-      cam.position.add(new THREE.Vector3((Math.random() - 0.5) * k, (Math.random() - 0.5) * k, (Math.random() - 0.5) * k));
+      cam.position.x += (Math.random() - 0.5) * k; cam.position.y += (Math.random() - 0.5) * k; cam.position.z += (Math.random() - 0.5) * k;
     }
     cam.lookAt(this.smoothTarget);
     cam.fov = r.fov * this.aspectFov;
