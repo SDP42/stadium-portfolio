@@ -197,6 +197,7 @@ export const bench = [
   { title: 'Stratify', repo: 'https://dombivli-hackathon-s6vb.vercel.app', linkLabel: 'Live', tagline: "AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester.", stack: ['Python', 'React', 'SQL'] },
   { title: 'Medical AI · Chest X-ray', tagline: "YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM.", stack: ['PyTorch', 'YOLOv9', 'Grad-CAM'] },
   { title: 'Parallel', repo: gh('parallel'), tagline: "Attention digital twin that shows both futures of a notification before you tap.", stack: ['TypeScript', 'Python', 'Causal ML'] },
+  { title: 'Smart Resort 360', repo: gh('guestexperience'), tagline: "Guest portal with a live 3D twin of a 130-suite resort and a trilingual concierge.", stack: ['Next.js', 'three.js', 'RAG'] },
   { title: 'DriftWard', repo: gh('driftward'), tagline: "Behavioural identity layer that contains hijacked AI agents with still-valid tokens.", stack: ['FastAPI', 'three.js', 'CUSUM'] },
   { title: 'CityPulse AI', repo: gh('citypulse-ai'), tagline: "Local-first civic evidence workbench: every number traces back to its source rows.", stack: ['FastAPI', 'SQLite', 'H3', 'React'] },
   { title: 'Learnova IPD', repo: gh('LearnovaIPD'), tagline: "The original engine behind Learnova, turning text-heavy decks into visual slides.", stack: ['Python', 'Groq', 'Gemini'] },
