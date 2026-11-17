@@ -693,8 +693,8 @@ export class Stadium {
     });
     const flagMat = new THREE.ShaderMaterial({
       uniforms: { ...this.uniforms, map: { value: flagTex } }, side: THREE.DoubleSide,
-      vertexShader: `varying vec2 vUv; uniform float uTime; void main(){ vUv = uv; vec3 p = position;
-          float k = uv.x; p.z += sin(uTime*4. + p.x*1.6) * .35 * k; p.y += sin(uTime*3. + p.x*2.) * .12 * k;
+      vertexShader: `varying vec2 vUv; uniform float uTime, uRain; void main(){ vUv = uv; vec3 p = position;
+          float k = uv.x * (1. + uRain * .7); p.z += sin(uTime*(4. + uRain * 2.) + p.x*1.6) * .35 * k; p.y += sin(uTime*3. + p.x*2.) * .12 * k;
           gl_Position = projectionMatrix*modelViewMatrix*vec4(p,1.); }`,
       fragmentShader: `varying vec2 vUv; uniform sampler2D map; uniform float uLights, uDay;
         void main(){ vec3 c = texture2D(map, vUv).rgb; gl_FragColor = vec4(c * (0.25 + .75 * max(uLights, uDay)), 1.); }`,
