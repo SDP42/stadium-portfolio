@@ -153,9 +153,10 @@ export class Match {
   }
 
   // ------------------------------------------------------------ ball control
-  footOf(a, side = 1) {
-    const fwd = tmp.set(Math.sin(a.heading), 0, Math.cos(a.heading));
-    return a.pos.clone().addScaledVector(fwd, 0.75).add(new THREE.Vector3(Math.cos(a.heading) * 0.15 * side, 0, -Math.sin(a.heading) * 0.15 * side));
+  // Where the ball sits at a player's right (side 1) or left foot. Pass `out` to avoid allocating.
+  footOf(a, side = 1, out = new THREE.Vector3()) {
+    const s = Math.sin(a.heading), c = Math.cos(a.heading);
+    return out.set(a.pos.x + s * 0.75 + c * 0.15 * side, 0, a.pos.z + c * 0.75 - s * 0.15 * side);
   }
 
   giveBall(a) {
