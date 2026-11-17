@@ -1699,6 +1699,13 @@ export class Stadium {
     if (q.n < 40) return;
     const avg = q.sum / q.n;
     q.n = 0; q.sum = 0;
+    // recover: after ~4 s of comfortably fast frames, bring resolution back (at most twice)
+    if (avg < 1 / 57 && q.level === 1 && (q.ups || 0) < 2) {
+      q.good = (q.good || 0) + 1;
+      if (q.good >= 6) { q.good = 0; q.ups = (q.ups || 0) + 1; q.level = 2; this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1 : 1.25)); this.resize(); q.wait = 1; }
+      return;
+    }
+    q.good = 0;
     if (avg < 1 / 50) return;
     q.wait = 0.6;
     if (q.level === 3) {               // drop anti-aliasing and glow resolution first
