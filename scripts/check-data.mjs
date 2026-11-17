@@ -1,6 +1,6 @@
 // Checks src/data.js before every build: required fields, matching description lengths
-// (the site's cards are designed around them) and a case study for every project.
-import { squad, bench, caseStudy } from '../src/data.js';
+// (the site's cards are designed around them) and a project document for every project.
+import { squad, bench, projectDoc } from '../src/data.js';
 import { existsSync } from 'node:fs';
 
 const errors = [];
@@ -15,10 +15,10 @@ range('about', squad.map((p) => [p.title, p.about.length]), 180, 200);
 range('point', squad.flatMap((p) => p.points.map((x) => [p.title, x.length])), 52, 70);
 range('bench tagline', bench.map((b) => [b.title, b.tagline.length]), 76, 88);
 [...squad, ...bench].forEach((p) => {
-  const doc = caseStudy(p.title);
-  if (!doc) errors.push(`${p.title}: no case study mapped`);
+  const doc = projectDoc(p.title);
+  if (!doc) errors.push(`${p.title}: no project document mapped`);
   else if (!existsSync(new URL(`../public${doc}`, import.meta.url))) errors.push(`${p.title}: ${doc} is missing`);
 });
 
 if (errors.length) { console.error('data check failed:\n  ' + errors.join('\n  ')); process.exit(1); }
-console.log(`data check passed: ${squad.length} starters, ${bench.length} on the bench, ${squad.length + bench.length} case studies`);
+console.log(`data check passed: ${squad.length} starters, ${bench.length} on the bench, ${squad.length + bench.length} project documents`);

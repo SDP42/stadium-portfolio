@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { Stadium } from './scene.js';
 import { StadiumAudio } from './audio.js';
 import { Scout, BADGES, LEVELS, toast } from './game.js';
-import { profile, squad, bench, skills, education, honours, roles, interests, caseStudy } from './data.js';
+import { profile, squad, bench, skills, education, honours, roles, interests, projectDoc } from './data.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -54,7 +54,7 @@ function fillContent() {
     const attrs = b.repo ? `href="${b.repo}" target="_blank" rel="noopener"` : '';
     return `<${tag} class="sub" ${attrs}>
       <span class="sub-no mono">${String(12 + i).padStart(2, '0')}</span>
-      <div><h4>${b.title}</h4><p>${b.tagline}</p><div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div>${caseStudy(b.title) ? `<a class="sub-doc mono" href="${caseStudy(b.title)}" download data-doc>Case study (Word) ↓</a>` : ''}</div>
+      <div><h4>${b.title}</h4><p>${b.tagline}</p><div class="chips sm">${b.stack.map((s) => `<span>${s}</span>`).join('')}</div>${projectDoc(b.title) ? `<a class="sub-doc mono" href="${projectDoc(b.title)}" download data-doc>Case study (Word) ↓</a>` : ''}</div>
       <span class="sub-go mono">${b.repo ? (b.linkLabel || 'Repo') + ' ↗' : 'Private'}</span>
     </${tag}>`;
   }).join('');
@@ -102,7 +102,7 @@ function renderCard(i) {
       <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
       <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
       ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
-      ${caseStudy(p.title) ? `<a class="btn btn-ghost" href="${caseStudy(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
+      ${projectDoc(p.title) ? `<a class="btn btn-ghost" href="${projectDoc(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
     </div>
     ${p.subtitle ? `<p class="card-sub mono">${p.subtitle}</p>` : ''}
     ${p.numbers ? `<div class="card-numbers">${p.numbers.map(([v, l]) => `<div><b>${v}</b><span class="mono">${l}</span></div>`).join('')}</div>` : ''}

@@ -36,29 +36,29 @@ export const interests = ['Football & tactics', 'Sports analytics', 'Explainable
 
 const gh = (r) => `https://github.com/SDP42/${r}`;
 
-// Word case study for every project, served from public/case-studies
-export const caseStudy = (title) => CASE_STUDIES[title] ? `/case-studies/${CASE_STUDIES[title]}` : null;
-const CASE_STUDIES = {
-  'Elevate 1.0': 'elevate-case-study.docx',
-  'NAMASTE × ICD-11': 'namaste-icd11-case-study.docx',
-  'OHMEN': 'ohmen-case-study.docx',
-  'DataPilot': 'datapilot-case-study.docx',
-  'East Coast Freight Desk': 'east-coast-freight-desk-case-study.docx',
-  'BrainMapAI': 'brainmapai-case-study.docx',
-  'Learnova V2': 'learnova-v2-case-study.docx',
-  'OpsDesk': 'opsdesk-case-study.docx',
-  'MERIDIAN': 'meridian-case-study.docx',
-  'WorldCupAI 2026': 'worldcupai-2026-case-study.docx',
-  'MIRAGE': 'mirage-case-study.docx',
-  'Stratify': 'stratify-case-study.docx',
-  'Parallel': 'parallel-case-study.docx',
-  'Smart Resort 360': 'smart-resort-360-case-study.docx',
-  'DriftWard': 'driftward-case-study.docx',
-  'CityPulse AI': 'citypulse-ai-case-study.docx',
-  'Learnova IPD': 'learnova-ipd-case-study.docx',
-  'Football Analytics': 'football-analytics-case-study.docx',
-  'Medical AI · Chest X-ray': 'medical-ai-case-study.docx',
-  'HackNova L5614': 'hacknova-case-study.docx'
+// A PDF project document for every project, served from public/project-docs
+export const projectDoc = (title) => PROJECT_DOCS[title] ? `/project-docs/${PROJECT_DOCS[title]}` : null;
+const PROJECT_DOCS = {
+  'Elevate 1.0': 'elevate-project-document.pdf',
+  'NAMASTE × ICD-11': 'namaste-icd11-project-document.pdf',
+  'OHMEN': 'ohmen-project-document.pdf',
+  'DataPilot': 'datapilot-project-document.pdf',
+  'East Coast Freight Desk': 'east-coast-freight-desk-project-document.pdf',
+  'BrainMapAI': 'brainmapai-project-document.pdf',
+  'Learnova V2': 'learnova-v2-project-document.pdf',
+  'OpsDesk': 'opsdesk-project-document.pdf',
+  'MERIDIAN': 'meridian-project-document.pdf',
+  'WorldCupAI 2026': 'worldcupai-2026-project-document.pdf',
+  'MIRAGE': 'mirage-project-document.pdf',
+  'Stratify': 'stratify-project-document.pdf',
+  'Parallel': 'parallel-project-document.pdf',
+  'Smart Resort 360': 'smart-resort-360-project-document.pdf',
+  'DriftWard': 'driftward-project-document.pdf',
+  'CityPulse AI': 'citypulse-ai-project-document.pdf',
+  'Learnova IPD': 'learnova-ipd-project-document.pdf',
+  'Football Analytics': 'football-analytics-project-document.pdf',
+  'Medical AI · Chest X-ray': 'medical-ai-project-document.pdf',
+  'HackNova L5614': 'hacknova-project-document.pdf'
 };
 
 // The starting XI, in a 4-3-3. Pitch runs along x (-52.5 → 52.5), attacking +x.
