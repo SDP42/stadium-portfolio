@@ -536,6 +536,7 @@ function countUp() {
 
 // ------------------------------------------------------------ pointer: hover, drag, pick
 let hoverIdx = -1, down = null;
+let lastPick = 0;
 window.addEventListener('pointermove', (e) => {
   if (!stadium) return;
   const nx = (e.clientX / innerWidth) * 2 - 1, ny = -(e.clientY / innerHeight) * 2 + 1;
@@ -556,7 +557,9 @@ window.addEventListener('pointermove', (e) => {
       r.classList.toggle('off', off);
     }
   }
-  hoverIdx = onStage && ['stadium', 'squad', 'player'].includes(current.view) ? stadium.pickPlayer(nx, ny) : -1;
+  // raycast at most once per frame, however fast the mouse fires events
+  const now = performance.now();
+  if (now - lastPick > 16) { lastPick = now; hoverIdx = onStage && ['stadium', 'squad', 'player'].includes(current.view) ? stadium.pickPlayer(nx, ny) : -1; }
   const linkHover = e.target.closest('[data-hover-player]');
   if (linkHover) hoverIdx = +linkHover.dataset.hoverPlayer;
   stadium.setHover(hoverIdx);
