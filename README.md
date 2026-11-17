@@ -17,7 +17,7 @@ npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 |---|---|---|
 | `#/` | Outside, slow orbit over the esplanade | Name, pitch, featured captain, "Enter the stadium" |
 | `#/stadium` | High in the bowl | Zone markers for every section; fireworks on first entry; start a Mexican wave |
-| `#/squad` | Top-down through the roof | The starting XI: 11 projects in a 4-3-3 |
+| `#/squad` | Top-down through the roof | The starting XI: 11 projects in a 4-3-3, led by MIRAGE (captain), OpsDesk and MERIDIAN |
 | `#/squad/<no>` | Player cam | Broadcast card per project. "Pass to" kicks the ball to the next player and the camera follows |
 | `#/squad/9` | Captain cam | **MIRAGE**, the best project: gold kit, armband, floodlights dim, spotlight, deep-dive card |
 | `#/goal` | Behind the striker | Shot, net bulge, confetti, fireworks, scoreboard flips to 1–0 |
