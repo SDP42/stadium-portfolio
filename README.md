@@ -94,6 +94,11 @@ Every project has a Word dossier in [`public/case-studies`](public/case-studies)
 | Tab | Every zone, link and button is reachable; a skip link jumps to the projects |
 
 
+## Deploy
+
+The site is static. On Vercel, import the repo and keep the detected Vite settings (`npm run build`, output `dist`). `vercel.json` adds long-term caching for hashed assets and basic security headers. Vercel Web Analytics is injected in `src/main.js`; switch it on under the project's **Analytics** tab. Run `npm run check` to validate the project data before a build; CI runs it on every push.
+
+
 ## Code map
 | File | Role |
 |---|---|
