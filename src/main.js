@@ -374,6 +374,8 @@ $('.menu-btn').addEventListener('click', () => {
   $('.menu-btn').setAttribute('aria-expanded', String(open));
 });
 
+document.addEventListener('click', (e) => { if (e.target.closest('[data-doc]')) scout.award('deepdive'); });
+
 document.addEventListener('click', async (e) => {
   const b = e.target.closest('[data-share]');
   if (!b) return;
