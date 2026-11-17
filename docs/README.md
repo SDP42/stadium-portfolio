@@ -8,7 +8,7 @@
 | [Performance](PERFORMANCE.md) | Measurements, what made it fast and adaptive quality |
 | [Scout mode](GAMIFICATION.md) | XP, levels, badges and the shootout |
 | [Editing content](CONTENT.md) | Data rules and adding a project |
-| [Case studies](CASE_STUDIES.md) | Format, sections and sources of the Word dossiers |
+| [Project documents](PROJECT_DOCUMENTS.md) | Format, sections, the approach section and sources of the PDFs |
 | [Accessibility](ACCESSIBILITY.md) | Keyboard, semantics, reduced motion and fallbacks |
 | [Deployment](DEPLOYMENT.md) | Vercel, analytics and CI |
 | [Testing](TESTING.md) | Automated checks and browser verification |
