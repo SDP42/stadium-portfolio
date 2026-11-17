@@ -2,7 +2,7 @@
 
 ## Automated
 
-- `npm run check` validates `src/data.js`: eleven starters with unique numbers, required fields, description lengths and a case study for every project.
+- `npm run check` validates `src/data.js`: eleven starters with unique numbers, required fields, description lengths and a project document for every project.
 - `npm run build` must succeed with no errors; CI runs both on every push.
 
 ## In the browser

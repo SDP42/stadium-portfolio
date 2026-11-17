@@ -23,14 +23,14 @@ The length ranges keep every card the same shape; the shirt numbers follow a 4-3
 
 Each entry has `title`, `tagline` (76–88 characters), `stack` and an optional `repo` (with `linkLabel` for a non-GitHub link).
 
-## Case studies
+## Project documents
 
-`CASE_STUDIES` maps every squad and bench title to a Word file in `public/case-studies/`. The check fails if a project has no mapping or the file is missing.
+`PROJECT_DOCS` maps every squad and bench title to a PDF in `public/project-docs/`. The check fails if a project has no mapping or the file is missing.
 
 ## Adding a project
 
 1. Add the entry to `squad` or `bench` with the fields above.
-2. Add its case study to `public/case-studies/` and to `CASE_STUDIES`.
+2. Add its PDF to `public/project-docs/` and to `PROJECT_DOCS`.
 3. Run `npm run check`, then `npm run dev` to see the card.
 
 ## Everything else

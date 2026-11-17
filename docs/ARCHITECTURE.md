@@ -11,7 +11,7 @@ The site is a static Vite app: one HTML page, six ES modules and a stylesheet. T
 | `src/match.js` | `Match` class: articulated players, team movement, ball physics, celebrations and penalties |
 | `src/game.js` | Scout mode: XP, levels, badges and toasts |
 | `src/audio.js` | `StadiumAudio`: crowd, whistle, whooshes, roar and rain, synthesised with Web Audio |
-| `src/data.js` | All content: profile, squad, bench, education, honours, roles, skills and case-study links |
+| `src/data.js` | All content: profile, squad, bench, education, honours, roles, skills and project-document links |
 
 ## Routing
 

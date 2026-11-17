@@ -40,7 +40,7 @@ Visitors earn XP for exploring and unlock badges. Progress is kept in the visito
 | 🏆 Trophy hunter | Visit the trophy at the centre spot |
 | 📊 Analyst | Read the stats on the big screen |
 | 📄 Background check | Open the résumé |
-| 📘 Deep dive | Download a project case study |
+| 📘 Deep dive | Open a project document |
 | ✍️ Transfer request | Visit the press box |
 | 👑 Club legend | Unlock every other badge |
 
