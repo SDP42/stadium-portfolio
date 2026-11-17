@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0 · November 2026
+- Project documents are now PDFs: **Read doc** opens one in a new tab and **Download PDF** saves it, on every card and bench entry.
+- Each document gains an Approach section that explains, step by step, how the project was tackled.
+- "Case study" wording replaced by "project document" across the site and docs; the Word files are removed.
+
 ## 1.5.1 · November 2026
 - A `docs/` folder: architecture, stadium model, live match, performance, scout mode, content guide, case studies, accessibility, deployment and testing.
 - README: badges, contents, tech stack, requirements, privacy, credits and licences, a fuller code map and the corrected badge count.
