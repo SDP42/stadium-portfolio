@@ -26,7 +26,7 @@ export const BADGES = [
   { id: 'trophy', icon: '🏆', name: 'Trophy hunter', hint: 'Visit the trophy at the centre spot' },
   { id: 'analyst', icon: '📊', name: 'Analyst', hint: 'Read the stats on the big screen' },
   { id: 'cv', icon: '📄', name: 'Background check', hint: 'Open the résumé' },
-  { id: 'deepdive', icon: '📘', name: 'Deep dive', hint: 'Download a project case study' },
+  { id: 'deepdive', icon: '📘', name: 'Deep dive', hint: 'Open a project document' },
   { id: 'transfer', icon: '✍️', name: 'Transfer request', hint: 'Visit the press box' },
   { id: 'legend', icon: '👑', name: 'Club legend', hint: 'Unlock every other badge' },
 ];

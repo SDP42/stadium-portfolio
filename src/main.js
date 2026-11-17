@@ -76,7 +76,7 @@ function fillContent() {
 
   const items = ['SDP42 FC take the field', 'CGPA 9.70 / 10', '5× hackathon winner', '2× ideathon winner', 'JPMC Code for Good',
     'Secretary · DJS NSDC × Infomatrix', 'MIRAGE: 41/42 laundered voice deepfakes caught', 'Learnova: 700+ tests',
-    'Elevate 1.0: 700+ registrations', 'OpsDesk: 472 commits', '20 project case studies to download', 'MERIDIAN: sixteen agents, five defence layers', 'Transfer window: OPEN', 'Penalty shootout: can you beat the BUGS FC keeper?', 'Scout all 11 to unlock the full report'];
+    'Elevate 1.0: 700+ registrations', 'OpsDesk: 472 commits', '20 project documents to read or download', 'MERIDIAN: sixteen agents, five defence layers', 'Transfer window: OPEN', 'Penalty shootout: can you beat the BUGS FC keeper?', 'Scout all 11 to unlock the full report'];
   const row = items.map((t) => `<span>${t}</span><i>◆</i>`).join('');
   $('#ticker').innerHTML = row + row;
 }
