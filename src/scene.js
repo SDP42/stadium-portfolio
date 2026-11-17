@@ -1743,9 +1743,6 @@ export class Stadium {
       this.fwWasAlive = alive;
     }
 
-    // mast beacons blink
-    const blink = Math.sin(t * 3.2) > 0.6 ? 1 : 0.15;
-    this.aviation?.forEach((b) => { b.material.color.setRGB(blink, 0.08 * blink, 0.08 * blink); });
 
     // flags flutter
     this.flags?.forEach((f, i) => { f.rotation.y = Math.sin(t * 3 + i) * 0.4; });
