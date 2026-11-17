@@ -87,7 +87,7 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 
 ## Project documents
 
-Every project has a detailed PDF in [`public/project-docs`](public/project-docs). On the site, **Read doc** opens it in a new tab and **Download PDF** saves it. Each is set in Times New Roman 12 pt, justified, and covers the overview, problem, solution, the **approach** (the decisions that shaped the project, step by step), key features, a layered architecture diagram, the processing pipeline, the technology stack, data and models, engineering and testing, results, and charts of the repository's language mix and commit activity drawn from the GitHub API.
+Every project has a detailed PDF in [`public/project-docs`](public/project-docs). On the site, **Read doc** opens it in a new tab and **Download PDF** saves it. Each is set in Times New Roman 12 pt, justified, runs 6 to 18 pages with a contents page, and covers the background, problem, objectives and scope, the **approach** (each decision with the reason and the alternative rejected), architecture and components, algorithms, data, stack, API, setup, testing, results, challenges, security, limitations and future work, plus charts of the repository's language mix and commit activity from the GitHub API. The full section list is in [docs/PROJECT_DOCUMENTS.md](docs/PROJECT_DOCUMENTS.md).
 
 ## Keyboard
 
