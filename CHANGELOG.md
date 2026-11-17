@@ -7,6 +7,7 @@
 - Allocation-free frame loop, throttled raycasts, lazy rain and résumé preview, async shader compile, quality that recovers.
 - Open Graph cards, structured data, manifest, sitemap, skip link, focus rings, share and copy-email buttons.
 - Vendor chunks, Vercel headers, a data check script and CI.
+- Card actions (GitHub, live demo, case study, share) moved above the fold; pixel density follows the display.
 
 ## 1.4.0 · November 2026
 - Rebuilt from photos of the Etihad: drum towers, masts, glazed roof band, banded facade.
