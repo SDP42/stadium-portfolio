@@ -1579,13 +1579,13 @@ export class Stadium {
     if (!this.dragging) { r.yawTarget *= 1 - dt * 0.35; r.pitchTarget *= 1 - dt * 0.35; }
     this.mouseEase.lerp(this.mouse, Math.min(1, dt * 3));
 
-    const off = r.pos.clone().sub(r.target);
-    off.applyAxisAngle(new THREE.Vector3(0, 1, 0), r.yaw - this.mouseEase.x * 0.06 * r.drift);
+    const off = (this._off ||= new THREE.Vector3()).copy(r.pos).sub(r.target);
+    off.applyAxisAngle(Y_AXIS, r.yaw - this.mouseEase.x * 0.06 * r.drift);
     const len = off.length();
     off.y += (r.pitch + this.mouseEase.y * 0.03 * r.drift) * len;
     const cam = this.camera;
     // critically-damped follow: the rendered camera glides after the rig
-    const want = r.target.clone().add(off);
+    const want = (this._want ||= new THREE.Vector3()).copy(r.target).add(off);
     want.x += Math.sin(t * 0.31) * 0.6 * r.drift;
     want.y += Math.sin(t * 0.47) * 0.35 * r.drift;
     const k = 1 - Math.exp(-dt * 4.5);
