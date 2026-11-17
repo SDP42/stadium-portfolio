@@ -280,6 +280,8 @@ async function go(route) {
   if (route.view !== 'goal') $('#goal').classList.remove('show');
   $$(`.view[data-view="${route.view}"] [data-scramble]`).forEach(scramble);
   if (route.view === 'skills') countUp();
+  // load the PDF preview only when someone actually opens the résumé
+  if (route.view === 'resume') { const f = $('.cv-frame iframe'); if (!f.src) f.src = f.dataset.src; }
 
   showScene(route.view);
   if (!stadium) return;
