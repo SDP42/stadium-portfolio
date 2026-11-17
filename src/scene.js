@@ -666,6 +666,7 @@ export class Stadium {
           vec3 p = position;
           float isHead = part;
           p.y += wave * .5 + bounce;
+          p.y += sin(uTime * 1.3 + seed * 40.) * .025; // nobody sits perfectly still
           vec4 w = modelMatrix * instanceMatrix * vec4(p, 1.);
           gl_Position = projectionMatrix * viewMatrix * w;
           vec3 n = normalize(mat3(modelMatrix * instanceMatrix) * normal);
