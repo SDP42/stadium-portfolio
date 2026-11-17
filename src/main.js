@@ -262,6 +262,8 @@ async function go(route) {
   current = route;
   const cfg = VIEWS[route.view];
   document.body.dataset.view = route.view;
+  document.title = route.view === 'home' ? 'Swayam Panchal · Data Science & AI'
+    : `${route.view === 'player' ? squad[route.i].title : (SCENES[route.view] || [cfg.crumb])[0]} · Swayam Panchal`;
 
   // UI out
   $$('.view').forEach((el) => el.classList.toggle('active', el.dataset.view === route.view));
