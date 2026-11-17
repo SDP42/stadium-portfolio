@@ -102,7 +102,7 @@ function renderCard(i) {
       <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
       <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
       ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
-      ${projectDoc(p.title) ? `<a class="btn btn-ghost" href="${projectDoc(p.title)}" download data-doc>Case study <span>↓</span></a>` : ''}
+      ${projectDoc(p.title) ? `<a class="btn btn-ghost" href="${projectDoc(p.title)}" target="_blank" rel="noopener" data-doc>Read doc <span>↗</span></a><a class="btn btn-ghost" href="${projectDoc(p.title)}" download data-doc>Download PDF <span>↓</span></a>` : ''}
     </div>
     ${p.subtitle ? `<p class="card-sub mono">${p.subtitle}</p>` : ''}
     ${p.numbers ? `<div class="card-numbers">${p.numbers.map(([v, l]) => `<div><b>${v}</b><span class="mono">${l}</span></div>`).join('')}</div>` : ''}
