@@ -106,6 +106,7 @@ function renderCard(i) {
     <div class="chips">${p.stack.map((x) => `<span>${x}</span>`).join('')}</div>
     <div class="card-meter mono"><span>Commits</span><i style="--w:${Math.max(0.04, p.commits / maxC)}"></i><b>${p.commits}</b></div>
     <div class="card-links">
+      <button class="btn btn-ghost share-btn" type="button" data-share="${p.no}">Share <span>↗</span></button>
       <a class="btn btn-primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub <span>↗</span></a>
       ${p.live ? `<a class="btn btn-ghost" href="${p.live}" target="_blank" rel="noopener">Live demo <span>↗</span></a>` : ''}
     </div>
@@ -368,6 +369,17 @@ $('#backBtn').addEventListener('click', zoomOut);
 $('.menu-btn').addEventListener('click', () => {
   const open = document.body.classList.toggle('menu-open');
   $('.menu-btn').setAttribute('aria-expanded', String(open));
+});
+
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-share]');
+  if (!b) return;
+  const p = squad[byNo[b.dataset.share]];
+  const url = `${location.origin}${location.pathname}#/squad/${p.no}`;
+  try {
+    if (navigator.share) await navigator.share({ title: `${p.title} · Swayam Panchal`, text: p.tagline, url });
+    else { await navigator.clipboard.writeText(url); toast({ kind: 'xp', title: 'Link copied', text: p.title }); }
+  } catch { /* share sheet dismissed */ }
 });
 
 $('#copyMail').addEventListener('click', async () => {
