@@ -568,3 +568,4 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
 .btn:focus-visible, .nav a:focus-visible, .hotspot:focus-visible .hs-label { outline: 2px solid var(--lime); outline-offset: 3px; }
 .copy-mail { width: 100%; text-align: left; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } .captain-pick::after, .live-dot, .hs-dot i { animation: none; } }
