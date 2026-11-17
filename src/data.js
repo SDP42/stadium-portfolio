@@ -36,6 +36,31 @@ export const interests = ['Football & tactics', 'Sports analytics', 'Explainable
 
 const gh = (r) => `https://github.com/SDP42/${r}`;
 
+// Word case study for every project, served from public/case-studies
+export const caseStudy = (title) => CASE_STUDIES[title] ? `/case-studies/${CASE_STUDIES[title]}` : null;
+const CASE_STUDIES = {
+  'Elevate 1.0': 'elevate-case-study.docx',
+  'NAMASTE × ICD-11': 'namaste-icd11-case-study.docx',
+  'OHMEN': 'ohmen-case-study.docx',
+  'DataPilot': 'datapilot-case-study.docx',
+  'East Coast Freight Desk': 'east-coast-freight-desk-case-study.docx',
+  'BrainMapAI': 'brainmapai-case-study.docx',
+  'Learnova V2': 'learnova-v2-case-study.docx',
+  'OpsDesk': 'opsdesk-case-study.docx',
+  'MERIDIAN': 'meridian-case-study.docx',
+  'WorldCupAI 2026': 'worldcupai-2026-case-study.docx',
+  'MIRAGE': 'mirage-case-study.docx',
+  'Stratify': 'stratify-case-study.docx',
+  'Parallel': 'parallel-case-study.docx',
+  'Smart Resort 360': 'smart-resort-360-case-study.docx',
+  'DriftWard': 'driftward-case-study.docx',
+  'CityPulse AI': 'citypulse-ai-case-study.docx',
+  'Learnova IPD': 'learnova-ipd-case-study.docx',
+  'Football Analytics': 'football-analytics-case-study.docx',
+  'Medical AI · Chest X-ray': 'medical-ai-case-study.docx',
+  'HackNova L5614': 'hacknova-case-study.docx'
+};
+
 // The starting XI, in a 4-3-3. Pitch runs along x (-52.5 → 52.5), attacking +x.
 // `order` is the tour order: build-up play from the keeper to the striker.
 export const squad = [
