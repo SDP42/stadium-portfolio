@@ -134,6 +134,13 @@ export class Stadium {
 
     this.resize();
     window.addEventListener('resize', () => this.resize());
+    // follow the screen's pixel density when the window moves between displays
+    const watchDpr = () => matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener('change', () => {
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1 : 1.25));
+      this.resize();
+      watchDpr();
+    }, { once: true });
+    watchDpr();
   }
 
   // ---------------------------------------------------------------- world
