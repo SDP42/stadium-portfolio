@@ -271,9 +271,23 @@ export class Match {
       this.launch(this.ball.position.clone(), end, { duration: 0.42, height: 1.1, lofted: false }).then(() => {
         this.ball.position.copy(end);
         res(end);
+        this.celebrate();
         gsap.to(this.ball.position, { y: BALL_R, x: 53.2, duration: 0.8, ease: 'bounce.out' });
       });
     }, 220));
+  }
+
+  // After a goal the home side runs to the scorer, then drifts back to shape
+  celebrate() {
+    const striker = this.players[this.players.length - 1];
+    const spot = striker.pos.clone();
+    for (const a of this.players) {
+      if (a === striker || a.keeper) continue;
+      a.target = spot.clone().add(new THREE.Vector3((Math.random() - 0.5) * 6, 0, (Math.random() - 0.5) * 6));
+      a.urgent = true;
+    }
+    clearTimeout(this._party);
+    this._party = setTimeout(() => { for (const a of this.players) { if (a.mode !== 'scripted') { a.target = null; a.urgent = false; } } }, 5200);
   }
 
   // ------------------------------------------------------------ penalties
