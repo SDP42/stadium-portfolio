@@ -593,10 +593,11 @@ function loop() {
   const showHot = ['stadium', 'home'].includes(current.view) && !busy;
   hotEls.forEach((h) => {
     const visible = showHot && (h.home ? current.view === 'home' : current.view === 'stadium');
+    if (!visible) { if (h.shown) { h.el.classList.remove('show'); h.shown = false; } return; } // skip the projection math entirely
     const p = stadium.project(h.at());
     const off = p.behind || p.x < -50 || p.x > innerWidth + 50 || p.y < 40 || p.y > innerHeight - 40;
-    h.el.classList.toggle('show', visible && !off);
-    if (visible) h.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+    if (h.shown !== !off) { h.el.classList.toggle('show', !off); h.shown = !off; }
+    h.el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0)`;
   });
 }
 
