@@ -13,6 +13,7 @@ import { Match } from './match.js';
 import gsap from 'gsap';
 
 const TAU = Math.PI * 2;
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
 const LIME = new THREE.Color('#d4ff3a');
 
 // Superellipse point at angle t: the plan shape of the bowl, roof and shell.
@@ -1570,9 +1571,8 @@ export class Stadium {
     const r = this.rig;
     if (r.orbit) {
       // orbit pos and target together round the stadium axis so framing holds
-      const yAxis = new THREE.Vector3(0, 1, 0);
-      r.pos.applyAxisAngle(yAxis, r.orbit * dt);
-      r.target.applyAxisAngle(yAxis, r.orbit * dt);
+      r.pos.applyAxisAngle(Y_AXIS, r.orbit * dt);
+      r.target.applyAxisAngle(Y_AXIS, r.orbit * dt);
     }
     r.yaw += (r.yawTarget - r.yaw) * Math.min(1, dt * 4);
     r.pitch += (r.pitchTarget - r.pitch) * Math.min(1, dt * 4);
