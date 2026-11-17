@@ -267,7 +267,11 @@ async function go(route) {
 
   // UI out
   $$('.view').forEach((el) => el.classList.toggle('active', el.dataset.view === route.view));
-  $$('.nav a').forEach((a) => a.classList.toggle('on', a.dataset.view === route.view || (route.view === 'player' && a.dataset.view === 'squad')));
+  $$('.nav a').forEach((a) => {
+    const on = a.dataset.view === route.view || (route.view === 'player' && a.dataset.view === 'squad');
+    a.classList.toggle('on', on);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
   $('#crumbs').classList.toggle('show', route.view !== 'home');
   $('#trail').textContent = route.view === 'player' ? `The pitch / #${squad[route.i].no} ${squad[route.i].title}` : cfg.crumb;
   document.body.classList.remove('menu-open');
