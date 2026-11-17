@@ -55,34 +55,34 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 
 ## Starting XI
 
-| # | Pos | Project | In one line | Commits | Case study |
+| # | Pos | Project | In one line | Commits | Project document |
 |---|---|---|---|---|---|
-| 1 | GK | [Elevate 1.0](https://github.com/SDP42/Elevate1.0) · [live](https://elevate1-0.vercel.app) | The official platform that ran a 24-hour national hackathon. | 145 | [Word](public/case-studies/elevate-case-study.docx) |
-| 2 | RB | [NAMASTE × ICD-11](https://github.com/SDP42/SIH_PS_10) | A FHIR R4 service linking traditional and modern medical codes. | 40 | [Word](public/case-studies/namaste-icd11-case-study.docx) |
-| 3 | LB | [East Coast Freight Desk](https://github.com/SDP42/east-coast-freight-desk) · [live](https://east-coast-freight-desk.vercel.app) | Freight forecasts and chartering calls for SAIL's coal imports. | 34 | [Word](public/case-studies/east-coast-freight-desk-case-study.docx) |
-| 4 | CB | [OHMEN](https://github.com/SDP42/ohmen) | See the cascade before it happens, across critical systems. | 62 | [Word](public/case-studies/ohmen-case-study.docx) |
-| 5 | CB | [DataPilot](https://github.com/SDP42/datapilot) | An autonomous data scientist that explains every single step. | 71 | [Word](public/case-studies/datapilot-case-study.docx) |
-| 6 | CDM | [BrainMapAI](https://github.com/SDP42/BrainMapAI) | Turns PDFs and research papers into navigable knowledge graphs. | 58 | [Word](public/case-studies/brainmapai-case-study.docx) |
-| 7 | RW | [MERIDIAN](https://github.com/SDP42/agentx) | Speak the market, trust every trade: an agentic paper desk. | 116 | [Word](public/case-studies/meridian-case-study.docx) |
-| 8 | CM | [Learnova V2](https://github.com/SDP42/LearnovaV2) | Rebuilds lecture PDFs into illustrated, interactive slide decks. | 185 | [Word](public/case-studies/learnova-v2-case-study.docx) |
-| 9 | ST | [MIRAGE](https://github.com/SDP42/isacaps2) | Seeing is no longer believing. Is it really safe to act on this? | 201 | [Word](public/case-studies/mirage-case-study.docx) |
-| 10 | CAM | [OpsDesk](https://github.com/SDP42/OpsDesk) | Every ticket is a flight: a travel-ops desk run like a tower. | 472 | [Word](public/case-studies/opsdesk-case-study.docx) |
-| 11 | LW | [WorldCupAI 2026](https://github.com/SDP42/WorldCupAI-2026) | Predicts the complete FIFA World Cup 2026 knockout bracket. | 8 | [Word](public/case-studies/worldcupai-2026-case-study.docx) |
+| 1 | GK | [Elevate 1.0](https://github.com/SDP42/Elevate1.0) · [live](https://elevate1-0.vercel.app) | The official platform that ran a 24-hour national hackathon. | 145 | [PDF](public/project-docs/elevate-project-document.pdf) |
+| 2 | RB | [NAMASTE × ICD-11](https://github.com/SDP42/SIH_PS_10) | A FHIR R4 service linking traditional and modern medical codes. | 40 | [PDF](public/project-docs/namaste-icd11-project-document.pdf) |
+| 3 | LB | [East Coast Freight Desk](https://github.com/SDP42/east-coast-freight-desk) · [live](https://east-coast-freight-desk.vercel.app) | Freight forecasts and chartering calls for SAIL's coal imports. | 34 | [PDF](public/project-docs/east-coast-freight-desk-project-document.pdf) |
+| 4 | CB | [OHMEN](https://github.com/SDP42/ohmen) | See the cascade before it happens, across critical systems. | 62 | [PDF](public/project-docs/ohmen-project-document.pdf) |
+| 5 | CB | [DataPilot](https://github.com/SDP42/datapilot) | An autonomous data scientist that explains every single step. | 71 | [PDF](public/project-docs/datapilot-project-document.pdf) |
+| 6 | CDM | [BrainMapAI](https://github.com/SDP42/BrainMapAI) | Turns PDFs and research papers into navigable knowledge graphs. | 58 | [PDF](public/project-docs/brainmapai-project-document.pdf) |
+| 7 | RW | [MERIDIAN](https://github.com/SDP42/agentx) | Speak the market, trust every trade: an agentic paper desk. | 116 | [PDF](public/project-docs/meridian-project-document.pdf) |
+| 8 | CM | [Learnova V2](https://github.com/SDP42/LearnovaV2) | Rebuilds lecture PDFs into illustrated, interactive slide decks. | 185 | [PDF](public/project-docs/learnova-v2-project-document.pdf) |
+| 9 | ST | [MIRAGE](https://github.com/SDP42/isacaps2) | Seeing is no longer believing. Is it really safe to act on this? | 201 | [PDF](public/project-docs/mirage-project-document.pdf) |
+| 10 | CAM | [OpsDesk](https://github.com/SDP42/OpsDesk) | Every ticket is a flight: a travel-ops desk run like a tower. | 472 | [PDF](public/project-docs/opsdesk-project-document.pdf) |
+| 11 | LW | [WorldCupAI 2026](https://github.com/SDP42/WorldCupAI-2026) | Predicts the complete FIFA World Cup 2026 knockout bracket. | 8 | [PDF](public/project-docs/worldcupai-2026-project-document.pdf) |
 
 
 ## On the bench
 
-| Project | In one line | Case study |
+| Project | In one line | Project document |
 |---|---|---|
-| Stratify · [live](https://dombivli-hackathon-s6vb.vercel.app) | AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester. | [Word](public/case-studies/stratify-case-study.docx) |
-| Medical AI · Chest X-ray | YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM. | [Word](public/case-studies/medical-ai-case-study.docx) |
-| Parallel · [repo](https://github.com/SDP42/parallel) | Attention digital twin that shows both futures of a notification before you tap. | [Word](public/case-studies/parallel-case-study.docx) |
-| Smart Resort 360 · [repo](https://github.com/SDP42/guestexperience) | Guest portal with a live 3D twin of a 130-suite resort and a trilingual concierge. | [Word](public/case-studies/smart-resort-360-case-study.docx) |
-| DriftWard · [repo](https://github.com/SDP42/driftward) | Behavioural identity layer that contains hijacked AI agents with still-valid tokens. | [Word](public/case-studies/driftward-case-study.docx) |
-| CityPulse AI · [repo](https://github.com/SDP42/citypulse-ai) | Local-first civic evidence workbench: every number traces back to its source rows. | [Word](public/case-studies/citypulse-ai-case-study.docx) |
-| Learnova IPD · [repo](https://github.com/SDP42/LearnovaIPD) | The original engine behind Learnova, turning text-heavy decks into visual slides. | [Word](public/case-studies/learnova-ipd-case-study.docx) |
-| Football Analytics · [repo](https://github.com/SDP42/Football-Analytics) | Tactical football analytics platform, currently in research and architecture phase. | [Word](public/case-studies/football-analytics-case-study.docx) |
-| HackNova L5614 · [repo](https://github.com/SDP42/HackNova-L5614) | A logistics platform built against the clock at the HackNova L5614 hackathon event. | [Word](public/case-studies/hacknova-case-study.docx) |
+| Stratify · [live](https://dombivli-hackathon-s6vb.vercel.app) | AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester. | [PDF](public/project-docs/stratify-project-document.pdf) |
+| Medical AI · Chest X-ray | YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM. | [PDF](public/project-docs/medical-ai-project-document.pdf) |
+| Parallel · [repo](https://github.com/SDP42/parallel) | Attention digital twin that shows both futures of a notification before you tap. | [PDF](public/project-docs/parallel-project-document.pdf) |
+| Smart Resort 360 · [repo](https://github.com/SDP42/guestexperience) | Guest portal with a live 3D twin of a 130-suite resort and a trilingual concierge. | [PDF](public/project-docs/smart-resort-360-project-document.pdf) |
+| DriftWard · [repo](https://github.com/SDP42/driftward) | Behavioural identity layer that contains hijacked AI agents with still-valid tokens. | [PDF](public/project-docs/driftward-project-document.pdf) |
+| CityPulse AI · [repo](https://github.com/SDP42/citypulse-ai) | Local-first civic evidence workbench: every number traces back to its source rows. | [PDF](public/project-docs/citypulse-ai-project-document.pdf) |
+| Learnova IPD · [repo](https://github.com/SDP42/LearnovaIPD) | The original engine behind Learnova, turning text-heavy decks into visual slides. | [PDF](public/project-docs/learnova-ipd-project-document.pdf) |
+| Football Analytics · [repo](https://github.com/SDP42/Football-Analytics) | Tactical football analytics platform, currently in research and architecture phase. | [PDF](public/project-docs/football-analytics-project-document.pdf) |
+| HackNova L5614 · [repo](https://github.com/SDP42/HackNova-L5614) | A logistics platform built against the clock at the HackNova L5614 hackathon event. | [PDF](public/project-docs/hacknova-project-document.pdf) |
 
 
 ## Case studies
