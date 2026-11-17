@@ -8,7 +8,6 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 const TAU = Math.PI * 2;
 const BALL_R = 0.45;
 const UP = new THREE.Vector3(0, 1, 0);
-const tmp = new THREE.Vector3();
 
 function canvasTex(w, h, draw) {
   const c = document.createElement('canvas');
@@ -135,7 +134,6 @@ export class Match {
     this.owner = null;      // agent with the ball at their feet
     this.juggler = null;    // active player doing keepy-uppies
     this.flight = null;     // ball in the air / rolling
-    this.ballVel = new THREE.Vector3();
     // scratch vectors reused every frame (no garbage, no GC stutter)
     this._prev = new THREE.Vector3(); this._mv = new THREE.Vector3(); this._axis = new THREE.Vector3();
     this._foot = new THREE.Vector3(); this._goal = new THREE.Vector3(); this._to = new THREE.Vector3(); this._want = new THREE.Vector3();
