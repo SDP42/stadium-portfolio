@@ -955,6 +955,7 @@ export class Stadium {
       const pole = new THREE.Mesh(poleG, white); pole.position.set(52.5 * sx, .8, 34 * sz);
       const flag = new THREE.Mesh(flagG, sky); flag.position.set(52.5 * sx + .25, 1.4, 34 * sz);
       this.scene.add(pole, flag);
+      (this.flags ||= []).push(flag);
     }
   }
 
