@@ -48,7 +48,7 @@ Scroll, swipe or use the arrow keys to walk the story (outside → inside → pl
 - **Sound** (opt-in): crowd ambience, whooshes, the referee's whistle, a goal roar and fireworks. All synthesised with Web Audio, so there are no audio files.
 
 ## Scout mode (gamification)
-XP and levels (Academy → Reserves → First team → Captain → Club legend), 17 badges with toasts and a badge cabinet, progress for scouting all 11 projects, and the penalty shootout with your best score. Progress is stored in the visitor's browser.
+XP and levels (Academy → Reserves → First team → Captain → Club legend), 18 badges with toasts and a badge cabinet, progress for scouting all 11 projects, and the penalty shootout with your best score. Progress is stored in the visitor's browser.
 
 ## Editing content
 The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Swayam_Panchal_Resume.pdf); replace that file to update it. Everything else lives in [`src/data.js`](src/data.js): `profile`, the starting XI (`squad`, with `captain: true` on the featured project), `bench`, `education`, `honours`, `roles`, `interests` and `skills`. Add a phone number and set `showPhone: true` to list it on the contact page.
