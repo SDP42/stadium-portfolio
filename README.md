@@ -1,5 +1,7 @@
 # SDP42 FC · Swayam Panchal's portfolio
 
+[![CI](https://github.com/SDP42/stadium-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/SDP42/stadium-portfolio/actions/workflows/ci.yml) [![Live site](https://img.shields.io/badge/live-stadium--portfolio.vercel.app-62c8ff)](https://stadium-portfolio.vercel.app)
+
 A portfolio you walk into. A real-time 3D twin of a football stadium inspired by Manchester's Etihad Stadium, lit sky blue, full of fans, with a live match on the pitch. Each section of the portfolio is a place in the stadium, and the camera flies you there.
 
 **Swayam Panchal** · B.Tech AI & Data Science, DJ Sanghvi College of Engineering (CGPA 9.70) · 5× hackathon winner
