@@ -135,6 +135,9 @@ export class Match {
     this.juggler = null;    // active player doing keepy-uppies
     this.flight = null;     // ball in the air / rolling
     this.ballVel = new THREE.Vector3();
+    // scratch vectors reused every frame (no garbage, no GC stutter)
+    this._prev = new THREE.Vector3(); this._mv = new THREE.Vector3(); this._axis = new THREE.Vector3();
+    this._foot = new THREE.Vector3(); this._goal = new THREE.Vector3(); this._to = new THREE.Vector3(); this._want = new THREE.Vector3();
     this.giveBall(this.players[0]);
   }
 
@@ -440,7 +443,7 @@ export class Match {
     if (!this.flight) {
       if (this.juggler && this.mode !== 'penalty') {
         const j = this.juggler;
-        const foot = this.footOf(j, 1);
+        const foot = this.footOf(j, 1, this._foot);
         const beat = (t * 1.35) % 1;
         const h = Math.sin(beat * Math.PI) * 1.25;
         if (beat < 0.08 && !j._touched) { j._touched = true; j.kick = 0.45; j.kickPow = 0.25; }
@@ -448,11 +451,12 @@ export class Match {
         this.ball.position.set(foot.x, BALL_R + 0.25 + h, foot.z);
         this.ball.rotation.x -= dt * 6;
       } else if (this.owner) {
-        const foot = this.footOf(this.owner, 1);
-        const prev = this.ball.position.clone();
-        this.ball.position.lerp(new THREE.Vector3(foot.x, BALL_R, foot.z), Math.min(1, dt * 8));
-        const mv = this.ball.position.clone().sub(prev);
-        if (mv.lengthSq() > 1e-6) this.ball.rotateOnWorldAxis(new THREE.Vector3().crossVectors(UP, mv).normalize(), mv.length() / BALL_R);
+        const foot = this.footOf(this.owner, 1, this._foot);
+        const prev = this._prev.copy(this.ball.position);
+        foot.y = BALL_R;
+        this.ball.position.lerp(foot, Math.min(1, dt * 8));
+        const mv = this._mv.copy(this.ball.position).sub(prev);
+        if (mv.lengthSq() > 1e-6) this.ball.rotateOnWorldAxis(this._axis.crossVectors(UP, mv).normalize(), mv.length() / BALL_R);
       }
     }
   }
