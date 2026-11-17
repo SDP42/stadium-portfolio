@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.1 · November 2026
+- A `docs/` folder: architecture, stadium model, live match, performance, scout mode, content guide, case studies, accessibility, deployment and testing.
+- README: badges, contents, tech stack, requirements, privacy, credits and licences, a fuller code map and the corrected badge count.
+
 ## 1.5.0 · November 2026
 - OpsDesk and MERIDIAN join the Starting XI; Parallel and Smart Resort 360 move to the bench.
 - Twenty Word case studies, one per project, linked from every card.
