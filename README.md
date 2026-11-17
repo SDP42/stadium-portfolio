@@ -13,6 +13,10 @@ npm run dev      # http://localhost:5173
 npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 ```
 
+## Contents
+
+[The tour](#the-tour) · [What makes it feel real](#what-makes-it-feel-real) · [Scout mode](#scout-mode-gamification) · [Editing content](#editing-content) · [Starting XI](#starting-xi) · [On the bench](#on-the-bench) · [Case studies](#case-studies) · [Keyboard](#keyboard) · [Deploy](#deploy) · [Sharing and SEO](#sharing-and-seo) · [Tech stack](#tech-stack) · [Code map](#code-map) · [Documentation](#documentation)
+
 ## The tour
 
 | Route | Camera | What's there |
