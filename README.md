@@ -145,3 +145,7 @@ Vercel Web Analytics counts visits without cookies. Scout-mode progress and the 
 | `vercel.json`, `vite.config.js` | Hosting headers and build chunks |
 
 Built with [three.js](https://threejs.org) (MIT) and [GSAP](https://gsap.com) on [Vite](https://vitejs.dev) (MIT), with [Vercel Web Analytics](https://vercel.com/docs/analytics). Fonts: Archivo, Inter and JetBrains Mono from Google Fonts (SIL Open Font License). The stadium is an original model inspired by the Etihad Stadium's architecture and carries no club badges or sponsor names. Respects `prefers-reduced-motion`; phones get bottom-sheet panels and a lighter scene.
+
+## Documentation
+
+Deeper guides live in [`docs/`](docs/README.md): architecture, the stadium model, the live match, performance, scout mode, editing content, case studies, accessibility, deployment and testing.
