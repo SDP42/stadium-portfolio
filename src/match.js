@@ -361,19 +361,19 @@ export class Match {
 
     let n = 0;
     for (const a of this.agents) {
-      // where do I want to be?
-      let goal;
-      if (a.target) goal = a.target;
-      else if (a.team === 'ref') goal = tmp.set(THREE.MathUtils.clamp(ball.x - 7, -45, 45), 0, THREE.MathUtils.clamp(ball.z + 11, -30, 30)).clone();
+      // where do I want to be? (scratch vectors: nothing is allocated per agent per frame)
+      const goal = this._goal;
+      if (a.target) goal.copy(a.target);
+      else if (a.team === 'ref') goal.set(THREE.MathUtils.clamp(ball.x - 7, -45, 45), 0, THREE.MathUtils.clamp(ball.z + 11, -30, 30));
       else {
         const wander = a.activeTarget ? 0.25 : 2.2;
-        goal = a.home.clone().add(new THREE.Vector3(Math.sin(t * 0.23 + a.seed) * wander, 0, Math.cos(t * 0.19 + a.seed * 1.7) * wander));
-        if (a.team === 'away') goal.addScaledVector(ball.clone().sub(a.home).setY(0), 0.14); // press the ball
+        goal.set(a.home.x + Math.sin(t * 0.23 + a.seed) * wander, 0, a.home.z + Math.cos(t * 0.19 + a.seed * 1.7) * wander);
+        if (a.team === 'away') { goal.x += (ball.x - a.home.x) * 0.14; goal.z += (ball.z - a.home.z) * 0.14; } // press the ball
       }
-      const to = goal.clone().sub(a.pos).setY(0);
+      const to = this._to.copy(goal).sub(a.pos).setY(0);
       const dist = to.length();
       const vmax = a.urgent ? 7.5 : a.mode === 'scripted' ? 3.2 : 2.4;
-      const want = dist > 0.05 ? to.multiplyScalar(Math.min(vmax, dist * 1.4) / dist) : to.set(0, 0, 0);
+      const want = dist > 0.05 ? this._want.copy(to).multiplyScalar(Math.min(vmax, dist * 1.4) / dist) : this._want.set(0, 0, 0);
       a.vel.lerp(want, Math.min(1, dt * (a.urgent ? 6 : 2.5)));
       a.pos.addScaledVector(a.vel, dt);
       const speed = a.vel.length();
