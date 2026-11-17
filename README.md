@@ -15,7 +15,7 @@ npm run build    # static site in dist/ (Vercel, Netlify or GitHub Pages)
 
 ## Contents
 
-[The tour](#the-tour) · [What makes it feel real](#what-makes-it-feel-real) · [Scout mode](#scout-mode-gamification) · [Editing content](#editing-content) · [Starting XI](#starting-xi) · [On the bench](#on-the-bench) · [Case studies](#case-studies) · [Keyboard](#keyboard) · [Deploy](#deploy) · [Sharing and SEO](#sharing-and-seo) · [Tech stack](#tech-stack) · [Code map](#code-map) · [Documentation](#documentation)
+[The tour](#the-tour) · [What makes it feel real](#what-makes-it-feel-real) · [Scout mode](#scout-mode-gamification) · [Editing content](#editing-content) · [Starting XI](#starting-xi) · [On the bench](#on-the-bench) · [Project documents](#project-documents) · [Keyboard](#keyboard) · [Deploy](#deploy) · [Sharing and SEO](#sharing-and-seo) · [Tech stack](#tech-stack) · [Code map](#code-map) · [Documentation](#documentation)
 
 ## The tour
 
@@ -85,10 +85,9 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 | HackNova L5614 · [repo](https://github.com/SDP42/HackNova-L5614) | A logistics platform built against the clock at the HackNova L5614 hackathon event. | [PDF](public/project-docs/hacknova-project-document.pdf) |
 
 
-## Case studies
+## Project documents
 
-Every project has a Word dossier in [`public/case-studies`](public/case-studies), downloadable from its card on the site. Each one is set in Times New Roman 12 pt, justified, and covers the overview, problem, solution, key features, a layered architecture diagram, the processing pipeline, the technology stack, data and models, engineering and testing, results, and charts of the repository's language mix and commit activity drawn from the GitHub API.
-
+Every project has a detailed PDF in [`public/project-docs`](public/project-docs). On the site, **Read doc** opens it in a new tab and **Download PDF** saves it. Each is set in Times New Roman 12 pt, justified, and covers the overview, problem, solution, the **approach** (the decisions that shaped the project, step by step), key features, a layered architecture diagram, the processing pipeline, the technology stack, data and models, engineering and testing, results, and charts of the repository's language mix and commit activity drawn from the GitHub API.
 
 ## Keyboard
 
@@ -120,7 +119,7 @@ Open Graph and Twitter cards use a 1200×630 render of the stadium (`public/og.j
 | Audio | Web Audio API (synthesised, no files) |
 | Analytics | Vercel Web Analytics |
 | Hosting and CI | Vercel, GitHub Actions |
-| Case studies | docx (Word), matplotlib charts |
+| Project documents | PDF (Times New Roman, generated from Word), matplotlib charts |
 
 ## Requirements
 
@@ -139,13 +138,13 @@ Vercel Web Analytics counts visits without cookies. Scout-mode progress and the 
 | `src/game.js` | XP, levels, badges, toasts |
 | `src/audio.js` | Synthesised stadium sound |
 | `src/style.css` | Interface |
-| `src/data.js` | All content and case-study links |
+| `src/data.js` | All content and project-document links |
 | `scripts/check-data.mjs` | Content checks run by `npm run check` and CI |
-| `public/` | Résumé, case studies, share image, favicon, manifest, robots and sitemap |
+| `public/` | Résumé, project documents, share image, favicon, manifest, robots and sitemap |
 | `vercel.json`, `vite.config.js` | Hosting headers and build chunks |
 
 Built with [three.js](https://threejs.org) (MIT) and [GSAP](https://gsap.com) on [Vite](https://vitejs.dev) (MIT), with [Vercel Web Analytics](https://vercel.com/docs/analytics). Fonts: Archivo, Inter and JetBrains Mono from Google Fonts (SIL Open Font License). The stadium is an original model inspired by the Etihad Stadium's architecture and carries no club badges or sponsor names. Respects `prefers-reduced-motion`; phones get bottom-sheet panels and a lighter scene.
 
 ## Documentation
 
-Deeper guides live in [`docs/`](docs/README.md): architecture, the stadium model, the live match, performance, scout mode, editing content, case studies, accessibility, deployment and testing.
+Deeper guides live in [`docs/`](docs/README.md): architecture, the stadium model, the live match, performance, scout mode, editing content, project documents, accessibility, deployment and testing.
