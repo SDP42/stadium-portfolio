@@ -1634,7 +1634,6 @@ export class Stadium {
     const t = this.time;
     const U = this.uniforms;
     U.uTime.value = t;
-    if (U.uWave.value > 1) U.uWave.value -= 0; // keeps phase continuity (fract in shader)
 
     // camera rig: base pose + orbit + drag + mouse parallax + breathing + shake
     const r = this.rig;
