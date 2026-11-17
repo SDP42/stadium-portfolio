@@ -567,3 +567,4 @@ body[data-view='penalty'] .scene-card { bottom: 64px; }
 .skip-link:focus { top: 16px; }
 :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
 .btn:focus-visible, .nav a:focus-visible, .hotspot:focus-visible .hs-label { outline: 2px solid var(--lime); outline-offset: 3px; }
+.copy-mail { width: 100%; text-align: left; cursor: pointer; }

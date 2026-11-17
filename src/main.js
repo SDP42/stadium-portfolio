@@ -370,6 +370,11 @@ $('.menu-btn').addEventListener('click', () => {
   $('.menu-btn').setAttribute('aria-expanded', String(open));
 });
 
+$('#copyMail').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(profile.email); toast({ kind: 'xp', title: 'Email copied', text: profile.email }); }
+  catch { location.href = `mailto:${profile.email}`; }
+});
+
 $('#soundBtn').addEventListener('click', () => {
   const on = audio.toggle();
   $('#soundBtn').setAttribute('aria-pressed', String(on));
