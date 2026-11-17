@@ -1180,7 +1180,17 @@ export class Stadium {
     for (let i = 0; i < w; i += 6) x.fillRect(i, 0, 1, h);
     for (let j = 0; j < h; j += 6) x.fillRect(0, j, w, 1);
     x.textAlign = 'center'; x.textBaseline = 'middle';
-    if (mode === 'resume') {
+    if (mode === 'player') {
+      x.fillStyle = data.captain ? '#b8892a' : '#1e78c8'; x.fillRect(0, 0, w, 90);
+      x.fillStyle = '#fff'; x.font = '800 52px Archivo, Arial, sans-serif';
+      x.fillText(data.captain ? 'CAPTAIN · PLAYER OF THE MATCH' : 'NOW SCOUTING', w / 2, 47);
+      x.fillStyle = '#d4ff3a'; x.font = '900 230px Archivo, Arial, sans-serif'; x.fillText(String(data.no), 260, 330);
+      x.textAlign = 'left';
+      x.fillStyle = '#ffffff'; x.font = '900 104px Archivo, Arial, sans-serif'; x.fillText(String(data.title).toUpperCase().slice(0, 16), 470, 270);
+      x.fillStyle = '#62c8ff'; x.font = '600 40px "JetBrains Mono", monospace'; x.fillText(`${data.pos} · ${data.commits} COMMITS`, 476, 360);
+      x.textAlign = 'center';
+      x.fillStyle = '#d4ff3a'; x.fillRect(0, h - 16, w, 16);
+    } else if (mode === 'resume') {
       x.fillStyle = '#1e78c8'; x.fillRect(0, 0, w, 90);
       x.fillStyle = '#fff'; x.font = '800 52px Archivo, Arial, sans-serif';
       x.fillText('THE CONTRACT · RÉSUMÉ', w / 2, 47);

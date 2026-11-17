@@ -292,7 +292,8 @@ async function go(route) {
   const isCaptain = route.view === 'player' && squad[route.i].captain;
   stadium.spotlight(isCaptain ? squad[route.i].at : null);
   if (isCaptain && !(prev.view === 'player' && prev.i === route.i)) setTimeout(() => stadium.launchFireworks(8, ['#f3c75a', '#7fd4ff', '#ffffff']), 1600);
-  stadium.drawScreen(route.view === 'skills' ? 'skills' : route.view === 'resume' ? 'resume' : 'board');
+  if (route.view === 'player') stadium.drawScreen('player', squad[route.i]);
+  else stadium.drawScreen(route.view === 'skills' ? 'skills' : route.view === 'resume' ? 'resume' : 'board');
   const [a, b, chase] = isCaptain ? ['#f3c75a', '#7fd4ff', 1] : cfg.shell;
   stadium.setShell(a, b, chase);
 
