@@ -424,7 +424,7 @@ export class Stadium {
   }
 
   buildPitch() {
-    const W = 105, H = 68, S = 20; // texture px per metre
+    const W = 105, H = 68, S = 16; // texture px per metre (16 keeps lines crisp and halves start-up work)
     const tex = canvasTex(W * S + 200, H * S + 200, (x, w, h) => {
       const pad = 100;
       // apron + mowing stripes
