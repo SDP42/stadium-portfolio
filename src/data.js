@@ -239,6 +239,7 @@ export const squad = [
 
 // Substitutes: real work that did not make the starting XI.
 export const bench = [
+  { title: 'WorldCupAI 2026', repo: gh('WorldCupAI-2026'), tagline: "Predicts the full FIFA World Cup 2026 knockout bracket with ensembles and Monte Carlo.", stack: ['scikit-learn', 'TensorFlow', 'Streamlit'] },
   { title: 'Stratify', repo: 'https://dombivli-hackathon-s6vb.vercel.app', linkLabel: 'Live', tagline: "AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester.", stack: ['Python', 'React', 'SQL'] },
   { title: 'Medical AI · Chest X-ray', tagline: "YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM.", stack: ['PyTorch', 'YOLOv9', 'Grad-CAM'] },
   { title: 'Parallel', repo: gh('parallel'), tagline: "Attention digital twin that shows both futures of a notification before you tap.", stack: ['TypeScript', 'Python', 'Causal ML'] },
