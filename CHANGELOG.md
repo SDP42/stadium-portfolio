@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0 · November 2026
+- VyaparAI (582 commits, 664 tests) joins the Starting XI at #11 left wing; WorldCupAI 2026 moves to the bench.
+- Grip Guild, Team Outliers' Eurogrip TORQ Challenge 4.0 build, joins the bench.
+- New project documents for VyaparAI and Grip Guild, and an updated one for WorldCupAI: 22 in all.
+- Public repository count updated to 58, and VyaparAI added to the ticker.
+
 ## 1.6.1 · November 2026
 - Project documents rewritten in detail from each repository's README, internal docs and code: a contents page and up to 22 sections, from background and objectives to algorithms, API, setup, challenges, security and future work. Most grew from 5–7 pages to 9–18.
 - Bench cards on phones fixed: the document and repository links now sit inside each card instead of spilling outside it.
