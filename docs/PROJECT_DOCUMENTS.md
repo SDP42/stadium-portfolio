@@ -1,6 +1,6 @@
 # Project documents
 
-Every project has a detailed PDF in [`public/project-docs/`](../public/project-docs): the eleven starters and nine on the bench, twenty in all. On each card, **Read doc** opens the PDF in a new tab and **Download PDF** saves it.
+Every project has a detailed PDF in [`public/project-docs/`](../public/project-docs): the eleven starters and eleven on the bench, twenty-two in all. On each card, **Read doc** opens the PDF in a new tab and **Download PDF** saves it.
 
 ## Format
 
