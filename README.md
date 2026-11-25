@@ -67,13 +67,15 @@ The résumé PDF is [`public/resume/Swayam_Panchal_Resume.pdf`](public/resume/Sw
 | 8 | CM | [Learnova V2](https://github.com/SDP42/LearnovaV2) | Rebuilds lecture PDFs into illustrated, interactive slide decks. | 185 | [PDF](public/project-docs/learnova-v2-project-document.pdf) |
 | 9 | ST | [MIRAGE](https://github.com/SDP42/isacaps2) | Seeing is no longer believing. Is it really safe to act on this? | 201 | [PDF](public/project-docs/mirage-project-document.pdf) |
 | 10 | CAM | [OpsDesk](https://github.com/SDP42/OpsDesk) | Every ticket is a flight: a travel-ops desk run like a tower. | 472 | [PDF](public/project-docs/opsdesk-project-document.pdf) |
-| 11 | LW | [WorldCupAI 2026](https://github.com/SDP42/WorldCupAI-2026) | Predicts the complete FIFA World Cup 2026 knockout bracket. | 8 | [PDF](public/project-docs/worldcupai-2026-project-document.pdf) |
+| 11 | LW | [VyaparAI](https://github.com/SDP42/vyaparai) | Decision support for India's small shops, in Hindi and Hinglish. | 582 | [PDF](public/project-docs/vyaparai-project-document.pdf) |
 
 
 ## On the bench
 
 | Project | In one line | Project document |
 |---|---|---|
+| WorldCupAI 2026 · [repo](https://github.com/SDP42/WorldCupAI-2026) | Predicts the full FIFA World Cup 2026 knockout bracket with ensembles and Monte Carlo. | [PDF](public/project-docs/worldcupai-2026-project-document.pdf) |
+| Grip Guild · [live](https://gripguild-outliers.vercel.app) | Tools-not-cash advocacy platform that turns two-wheeler mechanics into Eurogrip fans. | [PDF](public/project-docs/grip-guild-project-document.pdf) |
 | Stratify · [live](https://dombivli-hackathon-s6vb.vercel.app) | AI-powered algorithmic trading platform with a Pandas and NumPy strategy backtester. | [PDF](public/project-docs/stratify-project-document.pdf) |
 | Medical AI · Chest X-ray | YOLOv9 and DenseNet-121 diagnosis on 2,000+ chest X-rays, explained with Grad-CAM. | [PDF](public/project-docs/medical-ai-project-document.pdf) |
 | Parallel · [repo](https://github.com/SDP42/parallel) | Attention digital twin that shows both futures of a notification before you tap. | [PDF](public/project-docs/parallel-project-document.pdf) |
