@@ -9,7 +9,7 @@ export const profile = {
   email: 'panchalswayam35@gmail.com',
   github: 'https://github.com/SDP42',
   linkedin: 'https://www.linkedin.com/in/swayam-panchal-11281b34a/',
-  repos: 56,
+  repos: 58,
   phone: '', // add a number and set showPhone: true to list it on the contact page
   showPhone: false,
 };

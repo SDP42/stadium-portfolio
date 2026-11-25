@@ -1219,7 +1219,7 @@ export class Stadium {
       x.fillStyle = '#1e78c8'; x.fillRect(0, 0, w, 90);
       x.fillStyle = '#fff'; x.font = '800 52px Archivo, Arial, sans-serif';
       x.fillText(mode === 'skills' ? 'MATCH STATS · SWAYAM PANCHAL' : 'SDP42 FC · MATCHDAY', w / 2, 47);
-      const stats = data.stats || [['9.70', 'CGPA'], ['5×', 'HACKATHONS'], ['11', 'STARTING XI'], ['53', 'REPOS']];
+      const stats = data.stats || [['9.70', 'CGPA'], ['5×', 'HACKATHONS'], ['11', 'STARTING XI'], ['58', 'REPOS']];
       stats.forEach(([v, l], i) => {
         const cx = (w / stats.length) * (i + 0.5);
         x.fillStyle = i % 2 ? '#ffffff' : '#d4ff3a';
